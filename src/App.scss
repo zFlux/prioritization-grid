@@ -23,7 +23,7 @@ $result-grid-top: $prioritization-grid-top + 774px;
   left: $choice-grid-left
 }
 
-.OptionList {
+.ItemList {
   transform: rotate($priortization-lists-rotate);
   position: absolute;
   top: $prioritization-grid-top + 190px;
@@ -95,9 +95,9 @@ $result-grid-top: $prioritization-grid-top + 774px;
   height: 20px;
 }
 
-/* Option List Classes */
+/* Item List Classes */
 
-.OptionTextbox {
+.ItemTextbox {
   font-family: Arial, Helvetica, sans-serif;
   vertical-align: middle;
   font-size: 16px;
@@ -112,11 +112,11 @@ $result-grid-top: $prioritization-grid-top + 774px;
   border-bottom: 2px solid black;
 }
 
-.OptionTextbox:focus {
+.ItemTextbox:focus {
   outline: none;
 }
 
-.OptionLabel {
+.ItemLabel {
   padding: 5px;
   font-size: 18px;
   font-weight: bold;
