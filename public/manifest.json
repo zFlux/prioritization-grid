@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Prioritization Grid",
+  "name": "Application to assist in decision making",
   "icons": [
     {
       "src": "favicon.ico",

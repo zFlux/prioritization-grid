@@ -1,6 +1,6 @@
 import React from 'react';
 import ChoiceGrid from './ChoiceGrid';
-import OptionList from './OptionList';
+import ItemList from './ItemList';
 import ResultGrid from './ResultGrid';
 import ResultList from './ResultList';
 
@@ -59,7 +59,7 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
     render() {
         return (
             <div className='PrioritizationGrid'>
-                <OptionList optionCount={10} onChange={this.optionListChange}/>
+                <ItemList itemCount={10} onChange={this.optionListChange}/>
                 <ResultList resultList={this.state.listOfResults} />
                 <ChoiceGrid gridSize={10} onChange={this.choiceGridChange} />
                 <ResultGrid countOfOptions={this.state.countOfOptions} rankingsOfOptions={this.state.rankingOfOptions} />
