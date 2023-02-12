@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders priority grid', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const priorityGridElement = screen.getByTestId(/prioritization-grid-id/i);
+  expect(priorityGridElement).toBeInTheDocument();
 });
