@@ -58,7 +58,7 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
 
     render() {
         return (
-            <div className='PrioritizationGrid'>
+            <div className='PrioritizationGrid' data-testid='prioritization-grid-id'>
                 <ItemList itemCount={10} onChange={this.optionListChange}/>
                 <ResultList resultList={this.state.listOfResults} />
                 <ChoiceGrid gridSize={10} onChange={this.choiceGridChange} />
