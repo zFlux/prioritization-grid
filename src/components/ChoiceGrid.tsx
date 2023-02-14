@@ -20,6 +20,6 @@ export default class ChoiceGrid extends React.Component<ChoiceGridProps> {
     }
 
     render() {
-        return this.buildGrid()
+        return (<div data-testid='choice-grid-id'>{this.buildGrid()}</div>);
     }
 }
