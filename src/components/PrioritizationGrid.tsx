@@ -7,10 +7,10 @@ import ResultList from './ResultList';
 interface PrioritizationGridProps { }
 
 interface PrioritizationGridState {
-    countOfOptions: number[];
-    listOfOptions: string[];
-    listOfResults: string[];
-    rankingOfOptions: number[];
+    countOfSelectedItems: number[];
+    listOfItems: string[];
+    listOfResultItems: string[];
+    rankingOfItems: number[];
 }
 
 export default class PrioritizationGrid extends React.Component<PrioritizationGridProps,PrioritizationGridState> {
@@ -18,51 +18,62 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
     constructor(props: PrioritizationGridProps) {
         super(props);
         this.state = {
-            countOfOptions: [0,0,0,0,0,0,0,0,0,0,0],
-            listOfOptions: ['', '', '', '', '', '', '', '', '', '', ''],
-            listOfResults: ['', '', '', '', '', '', '', '', '', '', ''],
-            rankingOfOptions: [0,0,0,0,0,0,0,0,0,0,0]
+            countOfSelectedItems: [0,0,0,0,0,0,0,0,0,0,0],
+            listOfItems: ['', '', '', '', '', '', '', '', '', '', ''],
+            listOfResultItems: ['', '', '', '', '', '', '', '', '', '', ''],
+            rankingOfItems: [0,0,0,0,0,0,0,0,0,0,0]
         }
         this.optionListChange = this.optionListChange.bind(this);
         this.choiceGridChange = this.choiceGridChange.bind(this);
     }
 
     optionListChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        let mutateListOfOptions = [...this.state.listOfOptions];
-        mutateListOfOptions[Number.parseInt(event.currentTarget.id.split('_')[1])] = event.currentTarget.value;
-        this.setState({ listOfOptions: mutateListOfOptions });
+        let updatedListOfItems = [...this.state.listOfItems];
+        updatedListOfItems[Number.parseInt(event.currentTarget.id.split('_')[1])] = event.currentTarget.value;
+        this.setState({ listOfItems: updatedListOfItems });
     }
 
     choiceGridChange(selected: number, unSelected: number) {    
-        let mutateCountOptions = this.state.countOfOptions;
-        mutateCountOptions[selected] ? mutateCountOptions[selected]++ : mutateCountOptions[selected] = 1;
-        mutateCountOptions[unSelected] ? mutateCountOptions[unSelected]-- : mutateCountOptions[unSelected] = 0;
-        this.setState({ countOfOptions: mutateCountOptions });
+        this.updateCountOfSelectedItems(selected, unSelected);
+        const updatedItemRankings = this.updateItemRankings(selected, unSelected);
+        this.updateListOfResultItems(updatedItemRankings);
+    }
 
-        let mutateRankingsOfOptions:[number[]] = [[]];
-        for (let i = 1; i < this.state.countOfOptions.length; i++) {
-            if(!mutateRankingsOfOptions[this.state.countOfOptions[i]]) mutateRankingsOfOptions[this.state.countOfOptions[i]] = [];
-            mutateRankingsOfOptions[this.state.countOfOptions[i]].push(i);
+    updateCountOfSelectedItems(selected: number, unSelected: number) {
+        let updatedItemCounts = this.state.countOfSelectedItems;
+        updatedItemCounts[selected] ? updatedItemCounts[selected]++ : updatedItemCounts[selected] = 1;
+        updatedItemCounts[unSelected] ? updatedItemCounts[unSelected]-- : updatedItemCounts[unSelected] = 0;
+        this.setState({ countOfSelectedItems: updatedItemCounts });
+    }
+
+    updateItemRankings(selected: number, unSelected: number) {
+        let updatedRankingOfItems:[number[]] = [[]];
+        for (let i = 1; i < this.state.countOfSelectedItems.length; i++) {
+            if(!updatedRankingOfItems[this.state.countOfSelectedItems[i]]) updatedRankingOfItems[this.state.countOfSelectedItems[i]] = [];
+            updatedRankingOfItems[this.state.countOfSelectedItems[i]].push(i);
         }
-        let reversedAndFlattend: number[] = mutateRankingsOfOptions.reverse().flat() 
+        
+        let reversedAndFlattend: number[] = updatedRankingOfItems.reverse().flat() 
         reversedAndFlattend.unshift(0);
-        this.setState({rankingOfOptions: reversedAndFlattend});
+        this.setState({rankingOfItems: reversedAndFlattend});
+        return reversedAndFlattend;
+    }
 
-        let mutateListOfResults = [...this.state.listOfOptions];
-        for (let i = 1; i < this.state.listOfOptions.length; i++) {
-
-            if (reversedAndFlattend[i]) mutateListOfResults[i] = this.state.listOfOptions[reversedAndFlattend[i]];
+    updateListOfResultItems(updatedItemRankings: number[]) {
+        let updatedListOfResults= [...this.state.listOfItems];
+        for (let i = 1; i < this.state.listOfItems.length; i++) {
+            if (updatedItemRankings[i]) updatedListOfResults[i] = this.state.listOfItems[updatedItemRankings[i]];
         }
-        this.setState({listOfResults: mutateListOfResults});
+        this.setState({listOfResultItems: updatedListOfResults});
     }
 
     render() {
         return (
             <div className='PrioritizationGrid' data-testid='prioritization-grid-id'>
                 <ItemList itemCount={10} onChange={this.optionListChange}/>
-                <ResultList resultList={this.state.listOfResults} />
+                <ResultList resultList={this.state.listOfResultItems} />
                 <ChoiceGrid gridSize={10} onChange={this.choiceGridChange} />
-                <ResultGrid countOfOptions={this.state.countOfOptions} rankingsOfOptions={this.state.rankingOfOptions} />
+                <ResultGrid countOfSelectedItems={this.state.countOfSelectedItems} rankingsOfItems={this.state.rankingOfItems} />
             </div>
         );
     }

@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface ResultGridProps {
-    countOfOptions: number[]
-    rankingsOfOptions: number[]
+    countOfSelectedItems: number[]
+    rankingsOfItems: number[]
 }
 
 function buildRow(values: number[]) {
@@ -13,9 +13,9 @@ function buildRow(values: number[]) {
     return row;
 }
 
-function buildTitleRow(countOfOptions: number[]) {
+function buildTitleRow(countOfSelectedItems: number[]) {
     let row = [];
-    for (let i = 0; i < countOfOptions.length-1; i++) {
+    for (let i = 0; i < countOfSelectedItems.length-1; i++) {
         row.push(<div className='ResultGridCellTitle' key={i}>{i+1}</div>);
     }
     return row;
@@ -26,13 +26,13 @@ export default class ResultGrid extends React.Component<ResultGridProps> {
         return (
             <div className='ResultGrid'>
                 <div className='ResultGridRow'>
-                    {buildTitleRow(this.props.countOfOptions)}
+                    {buildTitleRow(this.props.countOfSelectedItems)}
                 </div>
                 <div className='ResultGridRow'>
-                    {buildRow(this.props.countOfOptions)}
+                    {buildRow(this.props.countOfSelectedItems)}
                 </div>
                 <div className='ResultGridRow'>
-                    {buildRow(this.props.rankingsOfOptions)}
+                    {buildRow(this.props.rankingsOfItems)}
                 </div>
             </div>
         );
