@@ -14,16 +14,20 @@ function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
     }
 }
 
-export default class OptionList extends React.Component<ItemListProps> {
+export default class ItemList extends React.Component<ItemListProps> {
     render() {
         let itemFields = [];
         for (let i = 1; i <= this.props.itemCount; i++) {
             itemFields.push(<ItemField key={"item_" + i} itemID={i} onChange={this.props.onChange} onKeyDown={handleKeyDown}/>);
         }
         return (
-            <form className='ItemList'>
-                {itemFields}
-            </form>
+            <div>
+                <form className='ItemList'>
+                <h3 className='ItemListTitle'>Section A</h3>
+                <div className='ItemListTitleSubtext'>Before prioritzing - items in any order</div>
+                    {itemFields}
+                </form>
+            </div>
         );
     }
 }       

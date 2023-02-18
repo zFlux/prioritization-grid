@@ -3,6 +3,12 @@ import ChoiceGrid from './ChoiceGrid';
 import ItemList from './ItemList';
 import ResultGrid from './ResultGrid';
 import ResultList from './ResultList';
+import { replaceAt } from '../utils/utils';
+
+const INITIAL_COUNT_OF_SELECTED_ITEMS = [0,0,0,0,0,0,0,0,0,0,0];
+const INITIAL_LIST_OF_ITEMS = ['', '', '', '', '', '', '', '', '', '', ''];
+const INITIAL_LIST_OF_RESULT_ITEMS = ['', '', '', '', '', '', '', '', '', '', ''];
+const INITIAL_RANKING_OF_ITEMS = [0,0,0,0,0,0,0,0,0,0,0];
 
 interface PrioritizationGridProps { }
 
@@ -18,24 +24,25 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
     constructor(props: PrioritizationGridProps) {
         super(props);
         this.state = {
-            countOfSelectedItems: [0,0,0,0,0,0,0,0,0,0,0],
-            listOfItems: ['', '', '', '', '', '', '', '', '', '', ''],
-            listOfResultItems: ['', '', '', '', '', '', '', '', '', '', ''],
-            rankingOfItems: [0,0,0,0,0,0,0,0,0,0,0]
+            countOfSelectedItems: INITIAL_COUNT_OF_SELECTED_ITEMS,
+            listOfItems: INITIAL_LIST_OF_ITEMS,
+            listOfResultItems: INITIAL_LIST_OF_RESULT_ITEMS,
+            rankingOfItems: INITIAL_RANKING_OF_ITEMS
         }
-        this.optionListChange = this.optionListChange.bind(this);
+        this.itemListChange = this.itemListChange.bind(this);
         this.choiceGridChange = this.choiceGridChange.bind(this);
     }
 
-    optionListChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-        let updatedListOfItems = [...this.state.listOfItems];
-        updatedListOfItems[Number.parseInt(event.currentTarget.id.split('_')[1])] = event.currentTarget.value;
+    itemListChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+        const index = Number.parseInt(event.currentTarget.id.split('_')[1]);
+        const newItem = event.currentTarget.value;
+        const updatedListOfItems = replaceAt(this.state.listOfItems, index, newItem);
         this.setState({ listOfItems: updatedListOfItems });
     }
 
     choiceGridChange(selected: number, unSelected: number) {    
         this.updateCountOfSelectedItems(selected, unSelected);
-        const updatedItemRankings = this.updateItemRankings(selected, unSelected);
+        const updatedItemRankings = this.updateItemRankings();
         this.updateListOfResultItems(updatedItemRankings);
     }
 
@@ -46,7 +53,7 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
         this.setState({ countOfSelectedItems: updatedItemCounts });
     }
 
-    updateItemRankings(selected: number, unSelected: number) {
+    updateItemRankings() {
         let updatedRankingOfItems:[number[]] = [[]];
         for (let i = 1; i < this.state.countOfSelectedItems.length; i++) {
             if(!updatedRankingOfItems[this.state.countOfSelectedItems[i]]) updatedRankingOfItems[this.state.countOfSelectedItems[i]] = [];
@@ -70,7 +77,8 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
     render() {
         return (
             <div className='PrioritizationGrid' data-testid='prioritization-grid-id'>
-                <ItemList itemCount={10} onChange={this.optionListChange}/>
+                <div className='PrioritizationGridTitle'>Prioritizing Grid For 10 Items Or Fewer</div>
+                <ItemList itemCount={10} onChange={this.itemListChange}/>
                 <ResultList resultList={this.state.listOfResultItems} />
                 <ChoiceGrid gridSize={10} onChange={this.choiceGridChange} />
                 <ResultGrid countOfSelectedItems={this.state.countOfSelectedItems} rankingsOfItems={this.state.rankingOfItems} />

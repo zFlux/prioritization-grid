@@ -13,6 +13,8 @@ export default class ResultList extends React.Component<ResultListProps> {
         }
         return (
             <div className='ResultList'>
+                <h3 className='ResultListTitle'>Section D</h3>
+                <div className='ResultListTitleSubtext'>After prioritizing - items in final order</div>
                 {optionBoxes}
             </div>
         );
