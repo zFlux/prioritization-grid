@@ -24,15 +24,21 @@ function buildTitleRow(countOfSelectedItems: number[]) {
 export default class ResultGrid extends React.Component<ResultGridProps> {
     render() {
         return (
-            <div className='ResultGrid'>
-                <div className='ResultGridRow'>
-                    {buildTitleRow(this.props.countOfSelectedItems)}
-                </div>
-                <div className='ResultGridRow'>
-                    {buildRow(this.props.countOfSelectedItems)}
-                </div>
-                <div className='ResultGridRow'>
-                    {buildRow(this.props.rankingsOfItems)}
+            <div>
+                <div className='ResultGridTitle'>Section C</div>
+                <div className='ResultGrid'>
+                    <div className='ResultGridRow'>
+                        {buildTitleRow(this.props.countOfSelectedItems)}
+                        <div className='ResultGridRowTitle'>Item number from Section A</div>
+                    </div>
+                    <div className='ResultGridRow'>
+                        {buildRow(this.props.countOfSelectedItems)}
+                        <div className='ResultGridRowTitle'>How many times circled in Section B</div>
+                    </div>
+                    <div className='ResultGridRow'>
+                        {buildRow(this.props.rankingsOfItems)}
+                        <div className='ResultGridRowTitle'>Final rank for Section D</div>
+                    </div>
                 </div>
             </div>
         );
