@@ -1,4 +1,5 @@
 import React from 'react';
+import './ResultGrid.scss';
 
 interface ResultGridProps {
     countOfSelectedItems: number[]

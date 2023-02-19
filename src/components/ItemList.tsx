@@ -1,5 +1,6 @@
 import React from 'react';
 import ItemField from './ItemField';
+import './ItemList.scss'
 
 interface ItemListProps {
     itemCount: number;

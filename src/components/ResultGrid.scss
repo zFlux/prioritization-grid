@@ -1,0 +1,53 @@
+@import '../styles/variables.scss';
+
+.ResultGrid {
+    position: absolute;
+    top: $prioritization-grid-top + 840px;
+    left: $prioritization-grid-left + 24px;
+  }
+
+.ResultGridTitle {
+    position: absolute;
+    font-size: 22px;
+    font-weight: bold;
+    top: $prioritization-grid-top + 900px;
+    left: $prioritization-grid-left - 45px;
+    transform: rotate(-90deg);
+  
+  }
+  
+  .ResultGridRowTitle {
+    font-size: 18px;
+    padding: 10px;
+  }
+  
+  .ResultGridRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: normal;
+    align-items: center;
+  }
+  
+  .ResultGridCell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 37px;
+    height: 45px;
+    border: 2px solid black;
+    margin: -1px;
+  }
+  
+  .ResultGridCellTitle {
+    font-weight: bolder;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 37px;
+    height: 45px;
+    border: 2px solid black;
+    margin: -1px;
+  }
+  

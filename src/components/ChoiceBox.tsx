@@ -1,4 +1,5 @@
 import React, { MouseEventHandler } from 'react';
+import './ChoiceBox.scss';
 
 const UNSELECTED = 0;
 

@@ -4,6 +4,7 @@ import ItemList from './ItemList';
 import ResultGrid from './ResultGrid';
 import ResultList from './ResultList';
 import { replaceAt } from '../utils/utils';
+import './PrioritizationGrid.scss';
 
 const INITIAL_COUNT_OF_SELECTED_ITEMS = [0,0,0,0,0,0,0,0,0,0,0];
 const INITIAL_LIST_OF_ITEMS = ['', '', '', '', '', '', '', '', '', '', ''];
