@@ -1,5 +1,6 @@
 import React from 'react';
 import ItemField from './ItemField';
+import './ResultList.scss';
 
 interface ResultListProps {
     resultList: string[];

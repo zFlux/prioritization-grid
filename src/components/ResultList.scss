@@ -1,0 +1,25 @@
+@import '../styles/variables';
+
+.ResultList {
+    transform: rotate($priortization-lists-rotate);
+    position: absolute;
+    top: $prioritization-grid-top - 37px;
+    left: $prioritization-grid-left + 352px;
+  }
+  
+  .ResultListTitle {
+    height: 10px;
+    width: 200px;
+    margin-left: auto;
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  .ResultListTitleSubtext {
+    height: 50px;
+    width: 190px;
+    margin-left: auto;
+    font-size: 16px;
+    font-weight: normal;
+    vertical-align: middle;
+  }

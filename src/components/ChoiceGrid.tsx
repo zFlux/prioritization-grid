@@ -1,5 +1,6 @@
 import React from 'react';
 import ChoiceBox from './ChoiceBox';
+import './ChoiceGrid.scss';
 
 interface ChoiceGridProps {
     gridSize: number;

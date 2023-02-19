@@ -1,4 +1,4 @@
-import './App.scss';
+import './styles/App.scss';
 import PrioritizationGrid from './components/PrioritizationGrid';
 
 function App() {
