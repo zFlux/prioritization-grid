@@ -1,4 +1,5 @@
 import React from 'react';
+import './ItemField.scss';
 
 interface ItemFieldProps {
     itemID: number;

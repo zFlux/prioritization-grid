@@ -1,10 +1,9 @@
 import React from 'react';
 import ChoiceGrid from './ChoiceGrid';
-import ItemList from './ItemList';
 import ResultGrid from './ResultGrid';
-import ResultList from './ResultList';
 import { replaceAt } from '../utils/utils';
 import './PrioritizationGrid.scss';
+import ItemGrid from './ItemGrid';
 
 const INITIAL_COUNT_OF_SELECTED_ITEMS = [0,0,0,0,0,0,0,0,0,0,0];
 const INITIAL_LIST_OF_ITEMS = ['', '', '', '', '', '', '', '', '', '', ''];
@@ -79,8 +78,7 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
         return (
             <div className='PrioritizationGrid' data-testid='prioritization-grid-id'>
                 <div className='PrioritizationGridTitle'>Prioritizing Grid For 10 Items Or Fewer</div>
-                <ItemList itemCount={10} onChange={this.itemListChange}/>
-                <ResultList resultList={this.state.listOfResultItems} />
+                <ItemGrid resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
                 <ChoiceGrid gridSize={10} onChange={this.choiceGridChange} />
                 <ResultGrid countOfSelectedItems={this.state.countOfSelectedItems} rankingsOfItems={this.state.rankingOfItems} />
             </div>

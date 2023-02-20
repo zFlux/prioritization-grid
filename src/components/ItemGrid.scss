@@ -1,0 +1,9 @@
+@import '../styles/variables';
+
+.ItemGrid {
+    transform: rotate($priortization-lists-rotate);
+    top: $prioritization-grid-top;
+    left: $prioritization-grid-left + 130px;
+    display: flex;
+    position: absolute;
+}

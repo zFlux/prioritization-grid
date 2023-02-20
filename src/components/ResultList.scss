@@ -1,11 +1,4 @@
 @import '../styles/variables';
-
-.ResultList {
-    transform: rotate($priortization-lists-rotate);
-    position: absolute;
-    top: $prioritization-grid-top - 37px;
-    left: $prioritization-grid-left + 352px;
-  }
   
   .ResultListTitle {
     height: 10px;

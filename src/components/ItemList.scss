@@ -1,13 +1,6 @@
 @import '../styles/variables';
 
-.ItemList {
-    transform: rotate($priortization-lists-rotate);
-    position: absolute;
-    top: $prioritization-grid-top + 135px;
-    left: $prioritization-grid-left + 170px;
-  }
-
-.ItemListTitle {
+  .ItemListTitle {
     height: 10px;
     width: 200px;
     margin-left: auto;
@@ -21,7 +14,6 @@
     margin-left: auto;
     font-size: 16px;
     font-weight: normal;
-    vertical-align: middle;
   }
   
   .ItemTextbox {
@@ -37,6 +29,7 @@
     border-right: 2px solid black;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
+    position:inherit;
   }
   
   .ItemTextbox:focus {

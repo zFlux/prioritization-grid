@@ -1,36 +1,44 @@
 @import '../styles/variables.scss';
 
-.ResultGrid {
+$result-grid-top: $prioritization-grid-top + 340px;
+$result-grid-left: $prioritization-grid-left - 24px;
+
+  .ResultGrid {
     position: absolute;
-    top: $prioritization-grid-top + 840px;
-    left: $prioritization-grid-left + 24px;
+    top: $result-grid-top + 440px;
+    left: $result-grid-left + 46px;
   }
 
-.ResultGridTitle {
+  .ResultGridTitle {
+    top: $result-grid-top + 500px;
+    left: $result-grid-left - 25px;
     position: absolute;
     font-size: 22px;
     font-weight: bold;
-    top: $prioritization-grid-top + 900px;
-    left: $prioritization-grid-left - 45px;
     transform: rotate(-90deg);
-  
   }
-  
+
   .ResultGridRowTitle {
-    font-size: 18px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
     padding: 10px;
   }
-  
-  .ResultGridRow {
+
+  .ResultGridItemNumber {
     display: flex;
-    flex-direction: row;
-    justify-content: normal;
-    align-items: center;
   }
   
+  .ResultGridSelected {
+    display: flex;
+  }
+
+  .ResultGridRanked {
+    display: flex;
+  }
+
   .ResultGridCell {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 37px;
@@ -42,7 +50,6 @@
   .ResultGridCellTitle {
     font-weight: bolder;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 37px;
