@@ -1,5 +1,9 @@
+@import '../styles/variables';
+
 .PrioritizationGridTitle {
-    margin-left: auto;
+    position: absolute;
+    top: $prioritization-grid-top - 100px;
+    left: $prioritization-grid-left;
     font-size: 28px;
     font-weight: bold;
 }
