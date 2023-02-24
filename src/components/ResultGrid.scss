@@ -25,6 +25,11 @@ $result-grid-left: $prioritization-grid-left - 24px;
     padding: 10px;
   }
 
+  .TitleEmphasis {
+    color: red;
+    font-weight: bold;
+  }
+
   .ResultGridItemNumber {
     display: flex;
   }
