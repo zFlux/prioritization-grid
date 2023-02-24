@@ -1,7 +1,7 @@
 import React from 'react';
 import ChoiceGrid from './ChoiceGrid';
 import ResultGrid from './ResultGrid';
-import { replaceAt } from '../utils/utils';
+import { replaceAt, convertToItemNumbersInRankedOrder } from '../utils/utils';
 import './PrioritizationGrid.scss';
 import ItemGrid from './ItemGrid';
 
@@ -54,16 +54,10 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
     }
 
     updateItemRankings() {
-        let updatedRankingOfItems:[number[]] = [[]];
-        for (let i = 1; i < this.state.countOfSelectedItems.length; i++) {
-            if(!updatedRankingOfItems[this.state.countOfSelectedItems[i]]) updatedRankingOfItems[this.state.countOfSelectedItems[i]] = [];
-            updatedRankingOfItems[this.state.countOfSelectedItems[i]].push(i);
-        }
-        
-        let reversedAndFlattend: number[] = updatedRankingOfItems.reverse().flat() 
-        reversedAndFlattend.unshift(0);
-        this.setState({rankingOfItems: reversedAndFlattend});
-        return reversedAndFlattend;
+        const itemNumbersInRankedOrder = 
+            convertToItemNumbersInRankedOrder(this.state.countOfSelectedItems);
+        this.setState({rankingOfItems: itemNumbersInRankedOrder});
+        return itemNumbersInRankedOrder;
     }
 
     updateListOfResultItems(updatedItemRankings: number[]) {

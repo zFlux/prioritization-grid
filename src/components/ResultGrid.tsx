@@ -30,15 +30,15 @@ export default class ResultGrid extends React.Component<ResultGridProps> {
                 <div className='ResultGrid'>
                     <div className='ResultGridItemNumber'>
                         {buildTitleRow(this.props.countOfSelectedItems)}
-                        <div className='ResultGridRowTitle'>Item number from Section A</div>
+                        <div className='ResultGridRowTitle'>Item <div className='TitleEmphasis'>&nbsp;number&nbsp;</div> from Section A</div>
                     </div>
                     <div className='ResultGridSelected'>
                         {buildRow(this.props.countOfSelectedItems)}
-                        <div className='ResultGridRowTitle'>How many times circled in Section B</div>
+                        <div className='ResultGridRowTitle'>How many <div className='TitleEmphasis'>&nbsp;times&nbsp;</div> circled in Section B</div>
                     </div>
                     <div className='ResultGridRanked'>
                         {buildRow(this.props.rankingsOfItems)}
-                        <div className='ResultGridRowTitle'>Final rank for Section D</div>
+                        <div className='ResultGridRowTitle'>Final <div className='TitleEmphasis'>&nbsp;rank&nbsp;</div> for Section D</div>
                     </div>
                 </div>
             </div>
