@@ -5,6 +5,7 @@ import './ChoiceGrid.scss';
 interface ChoiceGridProps {
     gridSize: number;
     onChange: (selected: number, unSelected: number) => void;
+    listOfItems: string[];
 }
 
 export default class ChoiceGrid extends React.Component<ChoiceGridProps> {
@@ -13,7 +14,8 @@ export default class ChoiceGrid extends React.Component<ChoiceGridProps> {
         for (let i = 1; i <= this.props.gridSize; i++) {
             let row = [];
             for (let j = 1 ; j <= this.props.gridSize - i; j++) {
-                row.push(<ChoiceBox key={j + " " + i} firstOption={i} secondOption={j+i} onChange={this.props.onChange} />);
+                const isItemPopulated = this.props.listOfItems[i] !== '' && this.props.listOfItems[j+i] !== '';
+                row.push(<ChoiceBox key={j + " " + i} firstOption={i} secondOption={j+i} selectable={isItemPopulated} onChange={this.props.onChange} />);
             }
             grid.push(<div className={'ChoiceGridColumn' + i} key={i}>{row}</div>);
         }

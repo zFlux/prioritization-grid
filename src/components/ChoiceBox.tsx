@@ -6,6 +6,7 @@ const UNSELECTED = 0;
 interface ChoiceBoxProps {
     firstOption: number;
     secondOption: number;
+    selectable: boolean;
     onChange: (selected: number, unSelected: number) => void;
 }
 
@@ -29,15 +30,23 @@ export default class ChoiceBox extends React.Component<ChoiceBoxProps, ChoiceBox
     }
 
     render() {
+    const { selected } = this.state;
+    const { firstOption, secondOption, selectable } = this.props;
+
+    const firstSelectedClass = selected === firstOption ? 'ChoiceSelected' : 'Choice';
+    const secondSelectedClass = selected === secondOption ? 'ChoiceSelected' : 'Choice';
+    const firstChoiceClass = selectable ? firstSelectedClass : 'ChoiceDisabled';
+    const secondChoiceClass = selectable ? secondSelectedClass : 'ChoiceDisabled';
+
     return (
             <div className='ChoiceBox'>
                 <div className='ChoiceBoxRow1'>
-                    <div className={this.state.selected === this.props.firstOption ? 'ChoiceSelected' : 'Choice'} onClick={this.handleClick}>
+                    <div className={firstChoiceClass} onClick={selectable ? this.handleClick : ()=>{}}>
                         {this.props.firstOption}
                     </div>
                 </div>
                 <div className='ChoiceBoxRow2'>
-                    <div className={this.state.selected === this.props.secondOption ? 'ChoiceSelected' : 'Choice'} onClick={this.handleClick}>
+                    <div className={secondChoiceClass} onClick={selectable ? this.handleClick  : ()=>{}}>
                         {this.props.secondOption}
                     </div>
                 </div>
