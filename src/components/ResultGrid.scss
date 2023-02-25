@@ -10,12 +10,31 @@ $result-grid-left: $prioritization-grid-left - 24px;
   }
 
   .ResultGridTitle {
-    top: $result-grid-top + 500px;
-    left: $result-grid-left - 25px;
+    width: 100px;
+    top: $result-grid-top - 400px;
+    left: $result-grid-left - 148px;
     position: absolute;
     font-size: 22px;
     font-weight: bold;
     transform: rotate(-90deg);
+  }
+
+  .ResultGridSelected {
+    width: 700px;
+    top: $result-grid-top - 470px;
+    position:absolute;
+  }
+
+  .ResultGridItemNumber {
+    width: 700px;
+    top: $result-grid-top - 423px;
+    position:absolute;
+  }
+
+  .ResultGridRanked {
+    width: 700px;
+    top: $result-grid-top - 376px;
+    position:absolute;
   }
 
   .ResultGridRowTitle {
