@@ -12,7 +12,7 @@ describe('Rendering a ChoiceGrid', () => {
 
   const renderChoiceGrid = () => {
     mockChange.mockClear();
-    render(<ChoiceGrid gridSize={10} onChange={mockChange}/>);
+    render(<ChoiceGrid gridSize={10} onChange={mockChange} listOfItems={['a','b','c','d','e','f','g','h','i','j']}/>);
     choiceGrid = screen.getByTestId(/choice-grid-id/i);
     secondOptions = screen.getAllByText(/2/i);
     tenthOptions = screen.getAllByText(/10/i);
