@@ -25,9 +25,9 @@ function buildTitleRow(countOfSelectedItems: number[]) {
 export default class ResultGrid extends React.Component<ResultGridProps> {
     render() {
         return (
-            <div>
+            <div className='ResultGrid'>
                 <div className='ResultGridTitle'>Section C</div>
-                <div className='ResultGrid'>
+                <div>
                     <div className='ResultGridItemNumber'>
                         {buildTitleRow(this.props.countOfSelectedItems)}
                         <div className='ResultGridRowTitle'>Item <div className='TitleEmphasis'>&nbsp;number&nbsp;</div> from Section A</div>
