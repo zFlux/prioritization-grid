@@ -19,13 +19,13 @@ $result-grid-left: $prioritization-grid-left - 24px;
     transform: rotate(-90deg);
   }
 
-  .ResultGridSelected {
+  .ResultGridItemNumber {
     width: 700px;
     top: $result-grid-top - 470px;
     position:absolute;
   }
 
-  .ResultGridItemNumber {
+  .ResultGridSelected {
     width: 700px;
     top: $result-grid-top - 423px;
     position:absolute;
