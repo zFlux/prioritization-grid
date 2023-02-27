@@ -3,65 +3,34 @@
 $result-grid-top: $prioritization-grid-top + 340px;
 $result-grid-left: $prioritization-grid-left - 24px;
 
-  .ResultGrid {
-    position: absolute;
-    top: $result-grid-top + 440px;
-    left: $result-grid-left + 46px;
-  }
+.ResultGrid, .ResultGridTitle {
+  position: absolute;
+}
 
-  .ResultGridTitle {
+.ResultGrid {
+  top: $result-grid-top + 440px;
+  left: $result-grid-left + 46px;
+
+  &Title {
     width: 100px;
-    top: $result-grid-top - 400px;
+    top: $result-grid-top - 435px;
     left: $result-grid-left - 148px;
-    position: absolute;
     font-size: 22px;
     font-weight: bold;
     transform: rotate(-90deg);
   }
 
-  .ResultGridItemNumber {
+  &ItemNumber, &Selected, &Ranked {
     width: 700px;
-    top: $result-grid-top - 470px;
-    position:absolute;
-  }
-
-  .ResultGridSelected {
-    width: 700px;
-    top: $result-grid-top - 423px;
-    position:absolute;
-  }
-
-  .ResultGridRanked {
-    width: 700px;
-    top: $result-grid-top - 376px;
-    position:absolute;
-  }
-
-  .ResultGridRowTitle {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-  }
-
-  .TitleEmphasis {
-    color: red;
-    font-weight: bold;
-  }
-
-  .ResultGridItemNumber {
     display: flex;
-  }
-  
-  .ResultGridSelected {
-    display: flex;
+    position: absolute;
+
+    &:nth-child(1) { top: $result-grid-top - 470px; }
+    &:nth-child(2) { top: $result-grid-top - 423px; }
+    &:nth-child(3) { top: $result-grid-top - 376px; }
   }
 
-  .ResultGridRanked {
-    display: flex;
-  }
-
-  .ResultGridCell {
+  .ResultGridCell, .ResultGridCellTitle {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -70,15 +39,20 @@ $result-grid-left: $prioritization-grid-left - 24px;
     border: 2px solid black;
     margin: -1px;
   }
-  
+
   .ResultGridCellTitle {
     font-weight: bolder;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 37px;
-    height: 45px;
-    border: 2px solid black;
-    margin: -1px;
   }
-  
+}
+
+.ResultGridRowTitle {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.TitleEmphasis {
+  color: red;
+  font-weight: bold;
+}

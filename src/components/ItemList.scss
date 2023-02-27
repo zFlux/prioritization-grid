@@ -1,5 +1,12 @@
 @import '../styles/variables';
 
+
+  .ItemList {
+    .ItemTextbox {
+      color: rgb(0, 0, 0);
+    }
+  }
+
   .ItemListTitle {
     height: 10px;
     width: 200px;
@@ -14,30 +21,4 @@
     margin-left: auto;
     font-size: 16px;
     font-weight: normal;
-  }
-  
-  .ItemTextbox {
-    font-family: Arial, Helvetica, sans-serif;
-    vertical-align: middle;
-    font-size: 16px;
-    margin: -3px;
-    padding: 5px;
-    height: 50px;
-    width: 200px;
-    resize: none;
-    border-left: 0px solid black;
-    border-right: 2px solid black;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-    position:inherit;
-  }
-  
-  .ItemTextbox:focus {
-    outline: none;
-  }
-  
-  .ItemLabel {
-    padding: 5px;
-    font-size: 18px;
-    font-weight: bold;
   }

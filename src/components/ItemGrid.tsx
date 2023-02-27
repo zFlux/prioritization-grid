@@ -6,6 +6,7 @@ import './ItemGrid.scss';
 interface ItemGridProps {
     onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
     resultList: string[];
+    itemList: string[];
 
 }
 
@@ -13,7 +14,7 @@ export default class ItemField extends React.Component<ItemGridProps> {
     render() {
         return (
             <div className='ItemGrid'>
-                <ItemList itemCount={10} onChange={this.props.onChange}/>
+                <ItemList itemCount={10} itemList={this.props.itemList} onChange={this.props.onChange}/>
                 <ResultList resultList={this.props.resultList} />
             </div>
         );
