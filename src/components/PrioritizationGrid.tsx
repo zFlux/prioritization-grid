@@ -72,7 +72,7 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
         return (
             <div className='PrioritizationGrid' data-testid='prioritization-grid-id'>
                 <div className='PrioritizationGridTitle'>Prioritizing Grid For 10 Items Or Fewer</div>
-                <ItemGrid resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
+                <ItemGrid itemList={this.state.listOfItems} resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
                 <ChoiceGrid gridSize={10} listOfItems={this.state.listOfItems} onChange={this.choiceGridChange} />
                 <ResultGrid countOfSelectedItems={this.state.countOfSelectedItems} rankingsOfItems={this.state.rankingOfItems} />
             </div>

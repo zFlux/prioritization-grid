@@ -1,5 +1,11 @@
 @import '../styles/variables';
   
+  .ResultList {
+    .ItemTextbox {
+      color: rgb(0, 0, 0);
+    }
+  }
+
   .ResultListTitle {
     height: 10px;
     width: 200px;

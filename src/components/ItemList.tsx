@@ -5,6 +5,7 @@ import './ItemList.scss'
 interface ItemListProps {
     itemCount: number;
     onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    itemList: string[];
 }
 
 // function to intercept an pressing enter key and increment the focus of to the next input box
@@ -19,13 +20,17 @@ export default class ItemList extends React.Component<ItemListProps> {
     render() {
         let itemFields = [];
         for (let i = 1; i <= this.props.itemCount; i++) {
-            itemFields.push(<ItemField key={"item_" + i} itemID={i} onChange={this.props.onChange} onKeyDown={handleKeyDown}/>);
+            let className = 'ItemFieldDisabled';
+            if ((i-1 > 0 && this.props.itemList[i-1] !== '') || i === 1) {
+                className = 'ItemField';
+            }
+            itemFields.push(<ItemField className={className} key={"item_" + i} itemID={i} onChange={this.props.onChange} onKeyDown={handleKeyDown}/>);
         }
         return (
             <div>
                 <form className='ItemList'>
-                <h3 className='ItemListTitle'>Section A</h3>
-                <div className='ItemListTitleSubtext'>Before prioritzing - items in any order</div>
+                <h3 className='ItemListTitle'>Unprioritized</h3>
+                <div className='ItemListTitleSubtext'>Before prioritzing - enter items in any order</div>
                     {itemFields}
                 </form>
             </div>
