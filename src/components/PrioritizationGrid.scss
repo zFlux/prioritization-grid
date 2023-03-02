@@ -7,3 +7,50 @@
     font-size: 28px;
     font-weight: bold;
 }
+
+// format a button element inside PrioritizationGrid class
+.PrioritizationGridTitle button {
+    position: absolute;
+    top: $prioritization-grid-top - 120px;
+    left: $prioritization-grid-left + 420px;
+    width: 120px;
+    height: 40px;
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+// format an input element inside PrioritizationGrid class
+.PrioritizationGridTitle input {
+    display: none;
+}
+
+// format a label element inside PrioritizationGrid class
+.PrioritizationGridTitle label {
+    // change the background colour to red
+    background-color: buttonface;
+    text-align: center;
+    line-height: 40px;
+    position: absolute;
+    top: $prioritization-grid-top - 120px;
+    left: $prioritization-grid-left + 560px;
+    width: 120px;
+    height: 40px;
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+// give the label element a hover effect
+.PrioritizationGridTitle label:hover {
+    background-color: #fffffff9;
+}
+
+// give the export button a hover effect
+.PrioritizationGridTitle button:hover {
+    background-color: #ffffff;
+}

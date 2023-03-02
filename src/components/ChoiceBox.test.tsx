@@ -11,7 +11,7 @@ describe('Rendering a ChoiceBox', () => {
 
   const renderChoiceBox = () => {
     mockChange.mockClear();
-    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} onChange={mockChange} />);
+    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={0} onChange={mockChange} />);
     firstChoice = screen.getByText(/1/i);
     secondChoice = screen.getByText(/2/i);
   }
@@ -43,7 +43,7 @@ describe('When a choice is clicked', () => {
 
   const clickFirstChoice = () => {
     mockChange.mockClear();
-    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} onChange={mockChange} />);
+    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={1} onChange={mockChange} />);
     firstChoice = screen.getByText(/1/i);
     act(() => {
       firstChoice.click();
@@ -67,7 +67,7 @@ describe('When a choice is double clicked', () => {
 
   const doubleClickFirstChoice = () => {
     mockChange.mockClear();
-    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} onChange={mockChange} />);
+    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={1} onChange={mockChange} />);
     firstChoice = screen.getByText(/1/i);
     act(() => { firstChoice.click(); });
     act(() => { firstChoice.click(); });
@@ -92,7 +92,7 @@ describe('When two different choices are clicked in sequence', () => {
 
   const clickFirstThenSecondChoice = () => {
     mockChange.mockClear();
-    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} onChange={mockChange} />);
+    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={2} onChange={mockChange} />);
     firstChoice = screen.getByText(/1/i);
     secondChoice = screen.getByText(/2/i);
     act(() => { firstChoice.click(); });

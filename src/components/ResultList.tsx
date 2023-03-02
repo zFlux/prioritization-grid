@@ -3,13 +3,14 @@ import ItemField from './ItemField';
 import './ResultList.scss';
 
 interface ResultListProps {
+    resultCount: number;
     resultList: string[];
 }
 
 export default class ResultList extends React.Component<ResultListProps> {
     render() {
         let optionBoxes = [];
-        for (let i = 1; i < this.props.resultList.length; i++) {
+        for (let i = 1; i <= this.props.resultCount; i++) {
             optionBoxes.push(<ItemField className="ItemFieldDisabled" key={"result_" + i} itemID={i} value={this.props.resultList[i]} readOnly={true} />);
         }
         return (
