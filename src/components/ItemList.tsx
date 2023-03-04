@@ -11,6 +11,7 @@ interface ItemListProps {
 
 function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (event.key === 'Enter') {
+        event.preventDefault();
         let nextInput = document.getElementById('item_' + (parseInt(event.currentTarget.id.split('_')[1]) + 1));
         if (nextInput) nextInput.focus();
     }
@@ -31,7 +32,7 @@ export default class ItemList extends React.Component<ItemListProps> {
             <div>
                 <form className='ItemList'>
                 <h3 className='ItemListTitle'>Unprioritized</h3>
-                <div className='ItemListTitleSubtext'>Before prioritzing - enter items in any order</div>
+                <div className='ItemListTitleSubtext'>Before prioritizing - enter items in any order</div>
                     {itemFields}
                 </form>
             </div>

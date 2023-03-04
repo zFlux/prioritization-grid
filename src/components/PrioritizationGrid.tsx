@@ -133,9 +133,9 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
             listOfItems.unshift('');
             setState({listOfItems: listOfItems, largestEditedItemIndex: jsonData.largestEditedItemIndex,choiceGrid: jsonData.choiceGrid},
                 function() {
+                    updateCountOfSelectedItemsFromChoiceGrid();
                     const updatedItemRankings = updateItemRankings();
                     updateListOfResultItems(updatedItemRankings);
-                    updateCountOfSelectedItemsFromChoiceGrid();
                 }
                 );  
 
@@ -168,7 +168,6 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
                 Load From File
                 <input id="inputTag" type="file" accept=".json" onChange={this.handleFileInputChange} />
                 </label>
-              
                     <button onClick={() => this.exportJsonData(this.state.listOfItems, this.state.countOfSelectedItems, this.state.choiceGrid, this.state.largestEditedItemIndex)}>Export to File</button>
                 </div>
                 <ItemGrid itemList={this.state.listOfItems} largestEditedItemIndex={this.state.largestEditedItemIndex} resultList={this.state.listOfResultItems} onChange={this.itemListChange} />

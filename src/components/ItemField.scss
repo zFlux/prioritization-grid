@@ -1,6 +1,9 @@
 .ItemField {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .ItemFieldDisabled {
@@ -12,19 +15,25 @@
 }
 
 .ItemLabel {
-    text-align: center;
+    text-align: left;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .ItemTextbox { 
+    display: flex;
     font-family: Arial, Helvetica, sans-serif;
-    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    text-align: center;
     font-size: 16px;
-    margin: -3px;
-    padding: 5px;
-    height: 50px;
+    margin-top: -2px;
+    margin-left: 5px;
+    height: 52px;
     width: 200px;
     resize: none;
     border-left: 0px solid black;
@@ -36,10 +45,4 @@
   
   .ItemTextbox:focus {
     outline: none;
-  }
-  
-  .ItemLabel {
-    padding: 5px;
-    font-size: 18px;
-    font-weight: bold;
   }
