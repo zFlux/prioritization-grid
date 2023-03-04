@@ -1,7 +1,7 @@
 @import '../styles/variables.scss';
 
-$result-grid-top: $prioritization-grid-top + 340px;
-$result-grid-left: $prioritization-grid-left - 24px;
+$result-grid-top: $prioritization-grid-top + 350px;
+$result-grid-left: $prioritization-grid-left - 23px;
 
 .ResultGrid, .ResultGridTitle {
   position: absolute;
@@ -34,7 +34,7 @@ $result-grid-left: $prioritization-grid-left - 24px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 37px;
+    width: 37.5px;
     height: 45px;
     border: 2px solid black;
     margin: -1px;
