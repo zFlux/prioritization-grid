@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import ChoiceGrid from './ChoiceGrid';
 import { act } from 'react-dom/test-utils';
+import { HashTable } from '../utils/utils';
 
 const mockChange = jest.fn();
 
@@ -9,10 +10,11 @@ describe('Rendering a ChoiceGrid', () => {
   let choiceGrid: HTMLElement;
   let secondOptions: HTMLElement[];
   let tenthOptions: HTMLElement[];
+  let choiceGridData: HashTable<HashTable<number>>;
 
   const renderChoiceGrid = () => {
     mockChange.mockClear();
-    render(<ChoiceGrid gridSize={10} onChange={mockChange} listOfItems={['a','b','c','d','e','f','g','h','i','j']}/>);
+    render(<ChoiceGrid choiceGridData={choiceGridData} gridSize={10} onChange={mockChange} largestEditedItemIndex={10}/>);
     choiceGrid = screen.getByTestId(/choice-grid-id/i);
     secondOptions = screen.getAllByText(/2/i);
     tenthOptions = screen.getAllByText(/10/i);

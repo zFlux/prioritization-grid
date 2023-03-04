@@ -1,36 +1,23 @@
 import React, { MouseEventHandler } from 'react';
 import './ChoiceBox.scss';
 
-const UNSELECTED = 0;
-
 interface ChoiceBoxProps {
     firstOption: number;
     secondOption: number;
-    selectable: boolean;
-    onChange: (selected: number, unSelected: number) => void;
-}
-
-interface ChoiceBoxState {
     selected: number;
+    selectable: boolean;
+    onChange: (firstChoice: number, secondChoice: number, chosen: number) => void;
 }
 
-export default class ChoiceBox extends React.Component<ChoiceBoxProps, ChoiceBoxState> {
-    state = {
-        selected: UNSELECTED,
-    }
+export default class ChoiceBox extends React.Component<ChoiceBoxProps> {
+
     handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
         const clickedOption = event.currentTarget.textContent ? Number.parseInt(event.currentTarget.textContent) : 0;
-        if (this.state.selected === clickedOption) {
-            this.props.onChange(UNSELECTED, clickedOption);
-            this.setState({ selected: UNSELECTED });
-        } else {
-            this.props.onChange(clickedOption, this.state.selected);
-            this.setState({ selected: clickedOption });
-        }
+        this.props.onChange(this.props.firstOption, this.props.secondOption, clickedOption);
     }
 
     render() {
-    const { selected } = this.state;
+    const { selected } = this.props;
     const { firstOption, secondOption, selectable } = this.props;
 
     const firstSelectedClass = selected === firstOption ? 'ChoiceSelected' : 'Choice';
