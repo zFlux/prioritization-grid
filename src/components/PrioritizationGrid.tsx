@@ -144,7 +144,7 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
             const jsonData = JSON.parse(event.target?.result?.toString() || '');
             let listOfItems = jsonData.listOfItems;
             listOfItems.unshift('');
-            setState({listOfItems: listOfItems, largestEditedItemIndex: jsonData.largestEditedItemIndex,choiceGrid: jsonData.choiceGrid, prioritiesTitle: jsonData.prioritiesTitle},
+            setState({listOfItems: listOfItems, largestEditedItemIndex: jsonData.largestEditedItemIndex,choiceGrid: jsonData.choiceGrid, prioritiesTitle: jsonData.prioritiesTitle, countOfSelectedItems: INITIAL_COUNT_OF_SELECTED_ITEMS},
                 function() {
                     updateCountOfSelectedItemsFromChoiceGrid();
                     const updatedItemRankings = updateItemRankings();
