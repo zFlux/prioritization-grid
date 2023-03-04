@@ -4,7 +4,7 @@
     position: absolute;
     top: $prioritization-grid-top - 100px;
     left: $prioritization-grid-left;
-    font-size: 28px;
+    font-size: 22px;
     font-weight: bold;
 }
 
@@ -53,4 +53,36 @@
 // give the export button a hover effect
 .PrioritizationGridTitle button:hover {
     background-color: #ffffff;
+}
+
+.PrioritiesTitle {
+    z-index: -1;
+    rotate: $priortization-lists-rotate;
+    position: absolute;
+    text-align: center;
+    width: 320px;
+    height: 90px;
+    border: none;
+    resize: none;
+    border: 0px solid black;
+    top: $prioritization-grid-top + 20px;
+    left: $prioritization-grid-left - 60px;
+    font-size: 39px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.PrioritiesTitle:focus {
+    border: none;
+    outline: none !important;
+}
+
+.PrioritiesTitleLabel {
+    z-index: -1;
+    rotate: $priortization-lists-rotate;
+    position: absolute;
+    font-weight: bold;
+    font-size: medium;
+    top: $prioritization-grid-top;
+    left: $prioritization-grid-left + 25px;
 }

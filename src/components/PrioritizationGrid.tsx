@@ -19,9 +19,16 @@ interface PrioritizationGridState {
     rankingOfItems: number[];
     choiceGrid: HashTable<HashTable<number>>;
     largestEditedItemIndex: number;
+    prioritiesTitle: string;
 }
 
 export default class PrioritizationGrid extends React.Component<PrioritizationGridProps,PrioritizationGridState> {
+
+    focusRef = React.createRef<HTMLTextAreaElement>();
+
+    componentDidMount() {
+      this.focusRef.current?.focus();
+    }
 
     constructor(props: PrioritizationGridProps) {
         super(props);
@@ -31,13 +38,19 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
             listOfResultItems: INITIAL_LIST_OF_RESULT_ITEMS,
             rankingOfItems: INITIAL_RANKING_OF_ITEMS,
             choiceGrid: {},
-            largestEditedItemIndex: 0
+            largestEditedItemIndex: 0,
+            prioritiesTitle: ''
         }
         this.itemListChange = this.itemListChange.bind(this);
         this.choiceGridChange = this.choiceGridChange.bind(this);
         this.handleFileInputChange = this.handleFileInputChange.bind(this);
         this.setChosenValue = this.setChosenValue.bind(this);
         this.getChosenValue = this.getChosenValue.bind(this);
+        this.handlePrioritiesTitleChange = this.handlePrioritiesTitleChange.bind(this);
+    }
+
+    handlePrioritiesTitleChange(event: ChangeEvent<HTMLTextAreaElement>) {
+        this.setState({ prioritiesTitle: event.currentTarget.value });
     }
 
     setChosenValue(choiceOne: number, choiceTwo: number, chosen: number) {
@@ -131,7 +144,7 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
             const jsonData = JSON.parse(event.target?.result?.toString() || '');
             let listOfItems = jsonData.listOfItems;
             listOfItems.unshift('');
-            setState({listOfItems: listOfItems, largestEditedItemIndex: jsonData.largestEditedItemIndex,choiceGrid: jsonData.choiceGrid},
+            setState({listOfItems: listOfItems, largestEditedItemIndex: jsonData.largestEditedItemIndex,choiceGrid: jsonData.choiceGrid, prioritiesTitle: jsonData.prioritiesTitle},
                 function() {
                     updateCountOfSelectedItemsFromChoiceGrid();
                     const updatedItemRankings = updateItemRankings();
@@ -148,15 +161,15 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
         }
     }
 
-    exportJsonData(listOfItems: string[], countOfSelectedItems: number[], choiceGrid: HashTable<HashTable<number>>, largestEditedItemIndex: number) {
+    exportJsonData(listOfItems: string[], countOfSelectedItems: number[], choiceGrid: HashTable<HashTable<number>>, largestEditedItemIndex: number, prioritiesTitle: string) {
         let shiftedListOfItems = [...listOfItems];
         shiftedListOfItems.shift();
-        const data = { choiceGrid: choiceGrid, listOfItems: shiftedListOfItems, largestEditedItemIndex: largestEditedItemIndex };
+        const data = { choiceGrid: choiceGrid, listOfItems: shiftedListOfItems, largestEditedItemIndex: largestEditedItemIndex, prioritiesTitle: prioritiesTitle };
         const jsonData = JSON.stringify(data);
         const dataUri = `data:text/json;charset=utf-8,${encodeURIComponent(jsonData)}`;
         const link = document.createElement('a');
         link.href = dataUri;
-        link.download = 'priorities.json';
+        link.download = this.state.prioritiesTitle + ' Priorities.json';
         link.click();
     }
 
@@ -168,8 +181,10 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
                 Load From File
                 <input id="inputTag" type="file" accept=".json" onChange={this.handleFileInputChange} />
                 </label>
-                    <button onClick={() => this.exportJsonData(this.state.listOfItems, this.state.countOfSelectedItems, this.state.choiceGrid, this.state.largestEditedItemIndex)}>Export to File</button>
+                    <button onClick={() => this.exportJsonData(this.state.listOfItems, this.state.countOfSelectedItems, this.state.choiceGrid, this.state.largestEditedItemIndex, this.state.prioritiesTitle)}>Export to File</button>
                 </div>
+                <div className='PrioritiesTitleLabel'>Title:</div>
+                <textarea ref={this.focusRef} className='PrioritiesTitle' autoFocus onChange={this.handlePrioritiesTitleChange} value={this.state.prioritiesTitle}/>
                 <ItemGrid itemList={this.state.listOfItems} largestEditedItemIndex={this.state.largestEditedItemIndex} resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
                 <ChoiceGrid gridSize={10} choiceGridData={this.state.choiceGrid} largestEditedItemIndex={this.state.largestEditedItemIndex} onChange={this.choiceGridChange} />
                 <ResultGrid countOfSelectedItems={this.state.countOfSelectedItems} rankingsOfItems={this.state.rankingOfItems} />
