@@ -1,43 +1,41 @@
 @import '../styles/variables.scss';
 
-$result-grid-top: $prioritization-grid-top + 350px;
-$result-grid-left: $prioritization-grid-left - 23px;
-
-.ResultGrid, .ResultGridTitle {
-  position: absolute;
-}
-
 .ResultGrid {
-  top: $result-grid-top + 440px;
-  left: $result-grid-left + 46px;
+
+  display: flex;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-right: 286px;
+
+  @media screen and (max-width: 768px) {
+    margin-top: 90px;
+    padding-right: 0px;
+  }
 
   &Title {
-    width: 100px;
-    top: $result-grid-top - 435px;
-    left: $result-grid-left - 148px;
     font-size: 22px;
     font-weight: bold;
-    transform: rotate(-90deg);
+    writing-mode: vertical-rl;
+    rotate: 180deg;
   }
 
   &ItemNumber, &Selected, &Ranked {
-    width: 700px;
     display: flex;
-    position: absolute;
-
-    &:nth-child(1) { top: $result-grid-top - 470px; }
-    &:nth-child(2) { top: $result-grid-top - 423px; }
-    &:nth-child(3) { top: $result-grid-top - 376px; }
   }
 
   .ResultGridCell, .ResultGridCellTitle {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 37.5px;
+    width: 42px;
     height: 45px;
+    @media screen and (max-width: 768px) {
+      width: 32px;
+      height: 35px;
+    }
     border: 2px solid black;
-    margin: -1px;
+    margin-top: -2px;
+    margin-right: -2px;
   }
 
   .ResultGridCellTitle {

@@ -2,7 +2,9 @@
 
 .ChoiceBox {
     border: 2px solid black;
-    margin: -2px;
+    margin-top: -2px;
+    margin-right: -2px;
+    gap: 1px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

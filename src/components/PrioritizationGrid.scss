@@ -1,48 +1,52 @@
 @import '../styles/variables';
 
-.PrioritizationGridTitle {
-    position: absolute;
-    top: $prioritization-grid-top - 100px;
-    left: $prioritization-grid-left;
-    font-size: 22px;
-    font-weight: bold;
+.PrioritizationGrid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-// format a button element inside PrioritizationGrid class
-.PrioritizationGridTitle button {
-    position: absolute;
-    top: $prioritization-grid-top - 120px;
-    left: $prioritization-grid-left + 420px;
+.PrioritizationGridHeader {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background-color: #f0f0f0;
+}
+
+.ImportExportButtons {
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    padding-left: 10px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ExportButton {
     width: 120px;
     height: 40px;
     font-size: 15px;
-    font-weight: bold;
     border: 1px solid #000;
     border-radius: 5px;
     cursor: pointer;
 }
 
-// format an input element inside PrioritizationGrid class
-.PrioritizationGridTitle input {
-    display: none;
-}
-
-// format a label element inside PrioritizationGrid class
-.PrioritizationGridTitle label {
-    // change the background colour to red
+.ImportButton {
+    // change the background colour to buttonface
     background-color: buttonface;
     text-align: center;
-    line-height: 38px;
-    position: absolute;
-    top: $prioritization-grid-top - 120px;
-    left: $prioritization-grid-left + 560px;
+    line-height: 37px;
     width: 120px;
-    height: 38px;
+    height: 37px;
     font-size: 15px;
-    font-weight: bold;
+    font-weight: normal;
     border: 1px solid #000;
     border-radius: 5px;
     cursor: pointer;
+    input {
+        display: none;
+    }
 }
 
 // give the label element a hover effect
@@ -56,20 +60,21 @@
 }
 
 .PrioritiesTitle {
-    z-index: -1;
-    rotate: $priortization-lists-rotate;
-    position: absolute;
     text-align: center;
+    align-items: center;
+    vertical-align: middle;
     width: 320px;
-    height: 90px;
+    height: auto;
     border: none;
     resize: none;
     border: 0px solid black;
-    top: $prioritization-grid-top + 20px;
-    left: $prioritization-grid-left - 60px;
     font-size: 39px;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
+    padding-right: 280px;
+    @media screen and (max-width: 768px) {
+        padding-right: 0px;
+    }
 }
 
 .PrioritiesTitle:focus {
@@ -77,12 +82,13 @@
     outline: none !important;
 }
 
-.PrioritiesTitleLabel {
-    z-index: -1;
-    rotate: $priortization-lists-rotate;
-    position: absolute;
-    font-weight: bold;
-    font-size: medium;
-    top: $prioritization-grid-top;
-    left: $prioritization-grid-left + 25px;
+.ItemGridAndChoiceGridContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+    }
 }

@@ -1,46 +1,43 @@
 .ItemField {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
     text-align: center;
+    margin-top: -2px;
 }
 
 .ItemFieldDisabled {
     display: flex;
-    flex-direction: row;
     .ItemTextbox {
         background-color: rgb(245, 241, 241);
     }
+    margin-top: -2px;
 }
 
 .ItemLabel {
-    text-align: left;
     display: flex;
     align-items: center;
-    justify-content: center;
     font-size: 18px;
     font-weight: bold;
+    height: 64px;
+    width: 19.4px;
+    padding-left: 5px;
+    padding-right: 2px;
+    @media screen and (max-width: 768px) {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
 }
 
 .ItemTextbox { 
     display: flex;
     font-family: Arial, Helvetica, sans-serif;
-    align-items: center;
-    justify-content: center;
-    text-align: left;
     text-align: center;
     font-size: 16px;
-    margin-top: -2px;
-    margin-left: 5px;
-    height: 56px;
-    width: 200px;
     resize: none;
     border-left: 0px solid black;
     border-right: 2px solid black;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
-    position:inherit;
   }
   
   .ItemTextbox:focus {
