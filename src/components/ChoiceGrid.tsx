@@ -27,22 +27,22 @@ export default class ChoiceGrid extends React.Component<ChoiceGridProps> {
 
     buildGrid() { 
         let grid = [];
-        for (let i = 1; i <= this.props.gridSize; i++) {
+        for (let i = this.props.gridSize; i >= 1 ; i--) {
             let row = [];
             for (let j = 1 ; j <= this.props.gridSize - i; j++) {
                 const isItemBoxSelectable = i <= this.props.largestEditedItemIndex && (j+i) <= this.props.largestEditedItemIndex;
                 row.push(<ChoiceBox key={j + " " + i} firstOption={i} secondOption={j+i} selectable={isItemBoxSelectable} selected={this.getChosenValue(i,j+i)} onChange={this.props.onChange} />);
             }
-            grid.push(<div className={'ChoiceGridColumn' + i} key={i}>{row}</div>);
+            grid.push(<div className='ChoiceGridColumn' key={i}>{row}</div>);
         }
         return grid;
     }
 
     render() {
         return (
-        <div data-testid='choice-grid-id'>
-            <div className='ChoiceGridTitle'>Choose Between Options</div>
+        <div className='ChoiceGrid' data-testid='choice-grid-id'>
             {this.buildGrid()}
+            <div className='ChoiceGridTitle'>Choose Between Options</div>
         </div>);
     }
 }

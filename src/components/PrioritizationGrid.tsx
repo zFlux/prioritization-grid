@@ -176,17 +176,20 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
     render() {
         return (
             <div className='PrioritizationGrid' data-testid='prioritization-grid-id'>
-                <div className='PrioritizationGridTitle'>Prioritizing Grid For 10 Items Or Fewer
-                <label htmlFor="inputTag">
-                Load From File
-                <input id="inputTag" type="file" accept=".json" onChange={this.handleFileInputChange} />
-                </label>
-                    <button onClick={() => this.exportJsonData(this.state.listOfItems, this.state.countOfSelectedItems, this.state.choiceGrid, this.state.largestEditedItemIndex, this.state.prioritiesTitle)}>Export to File</button>
+                <div className='PrioritizationGridHeader'>
+                    <div className='ImportExportButtons'>
+                        <label className='ImportButton' htmlFor="inputTag">
+                            Load From File
+                            <input id="inputTag" type="file" accept=".json" onChange={this.handleFileInputChange} />
+                        </label>
+                        <button className='ExportButton' onClick={() => this.exportJsonData(this.state.listOfItems, this.state.countOfSelectedItems, this.state.choiceGrid, this.state.largestEditedItemIndex, this.state.prioritiesTitle)}>Export to File</button>
+                    </div>
                 </div>
-                <div className='PrioritiesTitleLabel'>Title:</div>
-                <textarea ref={this.focusRef} className='PrioritiesTitle' autoFocus onChange={this.handlePrioritiesTitleChange} value={this.state.prioritiesTitle}/>
-                <ItemGrid itemList={this.state.listOfItems} largestEditedItemIndex={this.state.largestEditedItemIndex} resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
-                <ChoiceGrid gridSize={10} choiceGridData={this.state.choiceGrid} largestEditedItemIndex={this.state.largestEditedItemIndex} onChange={this.choiceGridChange} />
+                <textarea ref={this.focusRef} className='PrioritiesTitle' autoFocus onChange={this.handlePrioritiesTitleChange} value={this.state.prioritiesTitle} placeholder='Input what you are prioritizing'/>
+                <div className='ItemGridAndChoiceGridContainer'>
+                    <ItemGrid itemList={this.state.listOfItems} largestEditedItemIndex={this.state.largestEditedItemIndex} resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
+                    <ChoiceGrid gridSize={10} choiceGridData={this.state.choiceGrid} largestEditedItemIndex={this.state.largestEditedItemIndex} onChange={this.choiceGridChange} />
+                </div>
                 <ResultGrid countOfSelectedItems={this.state.countOfSelectedItems} rankingsOfItems={this.state.rankingOfItems} />
             </div>
         );

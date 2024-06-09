@@ -10,13 +10,6 @@ interface ItemFieldProps {
     readOnly?: boolean;
 }
 
-function formatedItemID(itemID: number) {
-    if (itemID < 10) {
-        return <>&nbsp; {itemID}</>;
-    }
-    return itemID;
-}
-
 export default class ItemField extends React.Component<ItemFieldProps> {
     render() {
         let disabled = this.props.className === 'ItemFieldDisabled';
@@ -26,7 +19,7 @@ export default class ItemField extends React.Component<ItemFieldProps> {
         ;
         return (
             <div className={this.props.className}>
-                <label className='ItemLabel'>{formatedItemID(this.props.itemID)}</label>
+                <label className='ItemLabel'>{this.props.itemID}</label>
                 {disabledTextbox}
             </div>
         );
