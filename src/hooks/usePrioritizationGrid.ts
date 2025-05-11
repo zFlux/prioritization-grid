@@ -1,41 +1,15 @@
 import { useState, useCallback } from 'react';
 import { convertToItemNumbersInRankedOrder } from '../utils/utils';
+import { PrioritizationState } from '../types/prioritization';
 
-// ===== TYPE DEFINITIONS =====
-/**
- * A generic type that represents a key-value store where keys are strings
- * Example: { "1": { "2": 1 } } represents choice 1 was selected over choice 2
- */
-interface HashTable<T> {
-  [key: string]: T;
-}
-
-/**
- * The complete state of our prioritization grid
- * - countOfSelectedItems: Tracks how many times each item was chosen
- * - listOfItems: The actual items being compared (e.g., ["", "Pizza", "Burger", ...])
- * - listOfResultItems: The items in their final ranked order
- * - rankingOfItems: The numerical ranking of each item
- * - choiceGrid: Stores all the pairwise comparisons
- * - largestEditedItemIndex: Tracks the highest index of items that have been edited
- * - prioritiesTitle: The title of this prioritization exercise
- */
-interface PrioritizationState {
-  countOfSelectedItems: number[];
-  listOfItems: string[];
-  listOfResultItems: string[];
-  rankingOfItems: number[];
-  choiceGrid: HashTable<HashTable<number>>;
-  largestEditedItemIndex: number;
-  prioritiesTitle: string;
-}
+// ===== CONSTANTS =====
+const GRID_SIZE = 11; // We use arrays of length 11 because we want indices 1-10 for items (index 0 is unused)
 
 // ===== INITIAL STATE VALUES =====
-// We use arrays of length 11 because we want indices 1-10 for items (index 0 is unused)
-const INITIAL_COUNT_OF_SELECTED_ITEMS = Array(11).fill(0);
-const INITIAL_LIST_OF_RESULT_ITEMS = Array(11).fill('');
-const INITIAL_LIST_OF_ITEMS = Array(11).fill('');
-const INITIAL_RANKING_OF_ITEMS = Array(11).fill(0);
+const INITIAL_COUNT_OF_SELECTED_ITEMS = Array(GRID_SIZE).fill(0);
+const INITIAL_LIST_OF_RESULT_ITEMS = Array(GRID_SIZE).fill('');
+const INITIAL_LIST_OF_ITEMS = Array(GRID_SIZE).fill('');
+const INITIAL_RANKING_OF_ITEMS = Array(GRID_SIZE).fill(0);
 
 const INITIAL_STATE: PrioritizationState = {
   countOfSelectedItems: INITIAL_COUNT_OF_SELECTED_ITEMS,
@@ -47,13 +21,34 @@ const INITIAL_STATE: PrioritizationState = {
   prioritiesTitle: ''
 };
 
+// ===== UTILITY FUNCTIONS =====
+/**
+ * Creates a data URI for downloading JSON data
+ */
+const createDataUri = (data: any): string => {
+  const jsonData = JSON.stringify(data);
+  return `data:text/json;charset=utf-8,${encodeURIComponent(jsonData)}`;
+};
+
+/**
+ * Updates the result list based on the current rankings
+ */
+const updateResultList = (listOfItems: string[], itemNumbersInRankedOrder: number[]): string[] => {
+  const updatedListOfResults = [...listOfItems];
+  for (let i = 1; i < listOfItems.length; i++) {
+    if (itemNumbersInRankedOrder[i]) {
+      updatedListOfResults[i] = listOfItems[itemNumbersInRankedOrder[i]];
+    }
+  }
+  return updatedListOfResults;
+};
+
 // ===== MAIN HOOK =====
 /**
  * Custom hook that manages the state and logic for the prioritization grid
  * Returns the current state and functions to modify it
  */
 export const usePrioritizationGrid = () => {
-  // Initialize state with our default values
   const [state, setState] = useState<PrioritizationState>(INITIAL_STATE);
 
   // ===== EVENT HANDLERS =====
@@ -64,7 +59,7 @@ export const usePrioritizationGrid = () => {
   const handlePrioritiesTitleChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setState(prevState => ({
       ...prevState,
-      prioritiesTitle: event.currentTarget.value
+      prioritiesTitle: event?.currentTarget?.value
     }));
   }, []);
 
@@ -135,7 +130,7 @@ export const usePrioritizationGrid = () => {
    * Main function that handles when a user makes a choice between two items
    * 1. Updates the choice in the grid
    * 2. Updates the count of selected items
-  3. Recalculates rankings and updates the result list
+   * 3. Recalculates rankings and updates the result list
    */
   const handleChoiceGridChange = useCallback((firstOption: number, secondOption: number, selected: number) => {
     const currentVal = getChosenValue(firstOption, secondOption);
@@ -157,14 +152,9 @@ export const usePrioritizationGrid = () => {
 
     // Update the rankings and result list based on new counts
     setState(prevState => {
-      debugger;
       const itemNumbersInRankedOrder = convertToItemNumbersInRankedOrder(prevState.countOfSelectedItems);
-      const updatedListOfResults = [...prevState.listOfItems];
-      for (let i = 1; i < prevState.listOfItems.length; i++) {
-        if (itemNumbersInRankedOrder[i]) {
-          updatedListOfResults[i] = prevState.listOfItems[itemNumbersInRankedOrder[i]];
-        }
-      }
+      const updatedListOfResults = updateResultList(prevState.listOfItems, itemNumbersInRankedOrder);
+      
       return {
         ...prevState,
         rankingOfItems: itemNumbersInRankedOrder,
@@ -209,15 +199,13 @@ export const usePrioritizationGrid = () => {
       prioritiesTitle: state.prioritiesTitle
     };
     
-    const jsonData = JSON.stringify(data);
-    const dataUri = `data:text/json;charset=utf-8,${encodeURIComponent(jsonData)}`;
+    const dataUri = createDataUri(data);
     const link = document.createElement('a');
     link.href = dataUri;
     link.download = `${state.prioritiesTitle} Priorities.json`;
     link.click();
   }, [state]);
 
-  // Return everything the component needs to function
   return {
     state,
     handlePrioritiesTitleChange,
