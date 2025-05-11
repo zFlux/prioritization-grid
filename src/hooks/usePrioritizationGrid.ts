@@ -59,7 +59,7 @@ export const usePrioritizationGrid = () => {
   const handlePrioritiesTitleChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setState(prevState => ({
       ...prevState,
-      prioritiesTitle: event.currentTarget.value
+      prioritiesTitle: event?.currentTarget?.value
     }));
   }, []);
 
