@@ -55,9 +55,9 @@ describe('When a choice is clicked', () => {
     expect(firstChoice).toHaveClass('ChoiceSelected');
   });
 
-  test('onChange event is called', () => {
+  test('onChange event is called with correct parameters', () => {
     clickFirstChoice();
-    expect(mockChange).toHaveBeenCalledWith(1, 0);
+    expect(mockChange).toHaveBeenCalledWith(1, 2, 1);
   });
 });
 
@@ -67,9 +67,10 @@ describe('When a choice is double clicked', () => {
 
   const doubleClickFirstChoice = () => {
     mockChange.mockClear();
-    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={1} onChange={mockChange} />);
+    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={0} onChange={mockChange} />);
     firstChoice = screen.getByText(/1/i);
     act(() => { firstChoice.click(); });
+    render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={1} onChange={mockChange} />);
     act(() => { firstChoice.click(); });
   }
 
@@ -78,10 +79,10 @@ describe('When a choice is double clicked', () => {
     expect(firstChoice).toHaveClass('Choice');
   });
 
-  test('onChange event is called twice with expected selected / unselected values', () => {
+  test('onChange event is called twice with correct parameters', () => {
     doubleClickFirstChoice();
-    expect(mockChange).toHaveBeenCalledWith(1, 0);
-    expect(mockChange).toHaveBeenCalledWith(0, 1);
+    expect(mockChange).toHaveBeenCalledWith(1, 2, 1);
+    expect(mockChange).toHaveBeenCalledWith(1, 2, 1);
   });
 });
 
@@ -109,10 +110,10 @@ describe('When two different choices are clicked in sequence', () => {
     expect(secondChoice).toHaveClass('ChoiceSelected');
   });
 
-  test('onChange event is called twice with expected selected / unselected values', () => {
+  test('onChange event is called twice with correct parameters', () => {
     clickFirstThenSecondChoice();
-    expect(mockChange).toHaveBeenCalledWith(1, 0);
-    expect(mockChange).toHaveBeenCalledWith(2, 1);
+    expect(mockChange).toHaveBeenCalledWith(1, 2, 1);
+    expect(mockChange).toHaveBeenCalledWith(1, 2, 2);
   });
 });
 

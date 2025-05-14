@@ -34,10 +34,11 @@ const createDataUri = (data: any): string => {
  * Updates the result list based on the current rankings
  */
 const updateResultList = (listOfItems: string[], itemNumbersInRankedOrder: number[]): string[] => {
-  const updatedListOfResults = [...listOfItems];
+  const updatedListOfResults = Array(listOfItems.length).fill('');
   for (let i = 1; i < listOfItems.length; i++) {
-    if (itemNumbersInRankedOrder[i]) {
-      updatedListOfResults[i] = listOfItems[itemNumbersInRankedOrder[i]];
+    const rankedIndex = itemNumbersInRankedOrder[i];
+    if (rankedIndex && listOfItems[rankedIndex]) {
+      updatedListOfResults[i] = listOfItems[rankedIndex];
     }
   }
   return updatedListOfResults;
@@ -170,16 +171,21 @@ export const usePrioritizationGrid = () => {
    */
   const handleImport = useCallback((jsonData: Partial<PrioritizationState>) => {
     setState(prevState => {
-      const listOfItems = [...(jsonData.listOfItems || [])];
-      listOfItems.unshift(''); // Add empty string at index 0
-      
+      let listOfItems: string[] = [];
+      if (jsonData.listOfItems) {
+        // Always ensure length 11, with '' at index 0
+        listOfItems = ['', ...jsonData.listOfItems.slice(0, 10)];
+        while (listOfItems.length < 11) listOfItems.push('');
+      } else {
+        listOfItems = Array(11).fill('');
+      }
       return {
         ...prevState,
         listOfItems,
         largestEditedItemIndex: jsonData.largestEditedItemIndex || 0,
         choiceGrid: jsonData.choiceGrid || {},
         prioritiesTitle: jsonData.prioritiesTitle || '',
-        countOfSelectedItems: INITIAL_COUNT_OF_SELECTED_ITEMS
+        countOfSelectedItems: Array(11).fill(0)
       };
     });
   }, []);

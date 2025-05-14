@@ -42,6 +42,7 @@
     ]
   },
   "devDependencies": {
+    "identity-obj-proxy": "^3.0.0",
     "ts-jest": "^29.0.5"
   }
 }
