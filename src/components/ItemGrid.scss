@@ -1,5 +1,6 @@
 @import '../styles/variables';
+@import '../styles/mixins';
 
 .ItemGrid {
-    display: flex;
+  @include flex;
 }

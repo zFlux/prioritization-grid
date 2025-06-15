@@ -1,4 +1,8 @@
-.App {
+@import 'variables';
+@import 'mixins';
+@import 'base';
+
+.app {
   text-align: center;
 }
 

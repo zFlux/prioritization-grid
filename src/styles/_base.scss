@@ -1,0 +1,63 @@
+@import 'variables';
+@import 'mixins';
+
+// Reset and base styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  @include font-base;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: $font-family-monospace;
+}
+
+// Common elements
+button {
+  @include transition;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  cursor: pointer;
+  background-color: buttonface;
+  font-size: $font-size-base;
+  
+  &:hover {
+    background-color: $color-white;
+  }
+}
+
+input, textarea {
+  @include font-base;
+  border: $border-width solid $border-color;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+// Utility classes
+.text-center {
+  text-align: center;
+}
+
+.text-bold {
+  font-weight: $font-weight-bold;
+}
+
+.text-red {
+  color: $color-red;
+}
+
+.flex-center {
+  @include flex(row, center, center);
+}
+
+.flex-column {
+  @include flex(column);
+} 

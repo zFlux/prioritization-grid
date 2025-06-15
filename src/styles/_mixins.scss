@@ -1,0 +1,58 @@
+// Flexbox
+@mixin flex($direction: row, $justify: flex-start, $align: stretch) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+// Media Queries
+@mixin mobile {
+  @media screen and (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+// Typography
+@mixin font-base {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: 1.5;
+}
+
+@mixin font-title {
+  font-family: $font-family-arial;
+  font-size: $font-size-large;
+  font-weight: $font-weight-bold;
+}
+
+// Transitions
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+// Hover effects
+@mixin hover-effect {
+  @include transition;
+  &:hover {
+    background-color: $color-white;
+    cursor: pointer;
+  }
+}
+
+// Grid cell
+@mixin grid-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: $choice-grid-col-width;
+  height: $choice-grid-row-height;
+  border: $border-width solid $border-color;
+  margin-top: -$border-width;
+  margin-right: -$border-width;
+
+  @include mobile {
+    width: 32px;
+    height: 35px;
+  }
+} 

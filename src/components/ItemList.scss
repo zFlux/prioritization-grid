@@ -1,24 +1,26 @@
 @import '../styles/variables';
+@import '../styles/mixins';
 
+.ItemList {
+  .ItemTextbox {
+    color: rgb(0, 0, 0);
+  }
+}
 
-  .ItemList {
-    .ItemTextbox {
-      color: rgb(0, 0, 0);
-    }
-  }
+.ItemListTitle {
+  height: 30px;
+  width: 200px;
+  margin-left: auto;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 
-  .ItemListTitle {
-    height: 10px;
-    width: 200px;
-    margin-left: auto;
-    font-size: 22px;
-    font-weight: bold;
-  }
-  
-  .ItemListTitleSubtext {
-    height: 50px;
-    width: 190px;
-    margin-left: auto;
-    font-size: 16px;
-    font-weight: normal;
-  }
+.ItemListTitleSubtext {
+  height: 50px;
+  width: 190px;
+  margin-left: auto;
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 20px;
+}

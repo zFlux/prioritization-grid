@@ -1,64 +1,74 @@
 @import '../styles/variables';
+@import '../styles/mixins';
 
 .ChoiceBox {
-    border: 2px solid black;
-    margin-top: -2px;
-    margin-right: -2px;
-    gap: 1px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    width: $choice-grid-col-width;
-    height: $choice-grid-row-height;
-  }
-  
-  .ChoiceBoxRow1 {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: left;
-    width: 100%;
-    height: 50%;
-  }
-  
-  .ChoiceBoxRow2 {
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
-    align-items: right;
-    width: 100%;
-    height: 50%;
-    color: red;
-  }
-  
-  .Choice {
-    font-size: 16px;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-  }
+  border: 2px solid black;
+  margin-top: -2px;
+  margin-right: -2px;
+  gap: 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: $choice-grid-col-width;
+  height: $choice-grid-row-height;
+}
 
-  .Choice:hover {
-    cursor: pointer;
-  }
-  
-  .ChoiceSelected {
-    font-size: 16px;
-    border-radius: 50%;
-    border: 1.5px solid rgb(255, 0, 0);
-    width: 18px;
-    height: 18px;
-  }
+.ChoiceBoxRow1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: left;
+  width: 100%;
+  height: 50%;
+}
 
-  .ChoiceDisabled {
-    font-size: 16px;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    color: rgba(0, 0, 0, 0.136);
-  }
+.ChoiceBoxRow2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: right;
+  width: 100%;
+  height: 50%;
+  color: red;
+}
 
-  .ChoiceSelected:hover {
-    cursor: pointer;
-  }
+.Choice {
+  font-size: 16px;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Choice:hover {
+  cursor: pointer;
+}
+
+.ChoiceSelected {
+  font-size: 16px;
+  border-radius: 50%;
+  border: 1.5px solid rgb(255, 0, 0);
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ChoiceDisabled {
+  font-size: 16px;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  color: rgba(0, 0, 0, 0.136);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ChoiceSelected:hover {
+  cursor: pointer;
+}

@@ -1,10 +1,51 @@
-$priortization-lists-rotate: -45deg;
+// Colors
+$color-black: #000000;
+$color-white: #ffffff;
+$color-red: #ff0000;
+$color-gray-light: #f0f0f0;
+$color-gray-lighter: #f5f1f1;
+$color-gray-disabled: rgba(0, 0, 0, 0.136);
 
+// Typography
+$font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+$font-family-monospace: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+$font-family-arial: Arial, Helvetica, sans-serif;
+
+$font-size-base: 16px;
+$font-size-large: 22px;
+$font-size-xlarge: 39px;
+
+$font-weight-normal: normal;
+$font-weight-bold: bold;
+
+// Layout
 $prioritization-grid-left: 100px;
 $prioritization-grid-top: 120px;
-
 $choice-grid-top: 375px;
 $choice-grid-left: 23px;
-
 $choice-grid-col-width: 42px;
-$choice-grid-row-height: 42px; 
+$choice-grid-row-height: 42px;
+
+// Transforms
+$prioritization-lists-rotate: -45deg;
+
+// Breakpoints
+$breakpoint-mobile: 768px;
+
+// Spacing
+$spacing-xs: 2px;
+$spacing-sm: 5px;
+$spacing-md: 10px;
+$spacing-lg: 30px;
+$spacing-xl: 50px;
+
+// Borders
+$border-width: 2px;
+$border-radius: 5px;
+$border-color: $color-black;
+
+// Z-index
+$z-index-modal: 1000;
+$z-index-dropdown: 900;
+$z-index-header: 800; 
