@@ -1,4 +1,4 @@
-@import '../styles/variables';
+@use '../styles/variables' as *;
 
 .ChoiceBox {
     border: 2px solid black;
