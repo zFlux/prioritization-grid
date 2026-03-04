@@ -1,7 +1,7 @@
 import React from 'react';
 import ChoiceBox from './ChoiceBox';
 import './ChoiceGrid.scss';
-import { HashTable } from '../utils/utils';
+import { type HashTable } from '../utils/utils';
 
 interface ChoiceGridProps {
     choiceGridData: HashTable<HashTable<number>>;
