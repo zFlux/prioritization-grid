@@ -1,46 +1,56 @@
-# Getting Started with Create React App
+# Prioritization Grid
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web app for ranking a list of items by making pairwise choices. You enter your items, then choose between pairs; the app counts how often each item is chosen and shows a ranked list.
 
-## Available Scripts
+## What it does
 
-In the project directory, you can run:
+- **Enter items** — Add up to 10 items in the “Unprioritized” list (in any order).
+- **Pairwise choices** — A grid of choice cells appears. In each cell you pick the higher-priority option (e.g. “1” or “2”). Only pairs for items you’ve entered are active.
+- **Live ranking** — As you make choices, the app counts how many times each item was selected and updates the “Prioritized” list and the “Counts” panel so you see the current order and scores.
 
-### `npm start`
+Use it for prioritizing tasks, features, options, or anything you can list and compare in pairs.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Tech stack
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **React 18** with TypeScript
+- **Vite** for dev and build
+- **Sass** for styles
+- **Vitest** + **Testing Library** for tests
 
-### `npm test`
+## Getting started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js (with npm or yarn)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Install and run
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Open [http://localhost:5173](http://localhost:5173) (Vite’s default port).
 
-### `npm run eject`
+### Other scripts
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+| Command | Description |
+|--------|-------------|
+| `npm run build` | Type-check, build for production, and output to the `docs` folder (e.g. for GitHub Pages). |
+| `npm run preview` | Serve the production build locally. |
+| `npm test` | Run tests once. |
+| `npm run test:watch` | Run tests in watch mode. |
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- `src/App.tsx` — Root component; renders `PrioritizationGrid`.
+- `src/components/PrioritizationGrid.tsx` — Main state and logic: items, choice grid data, rankings, and result list.
+- `src/components/ItemGrid.tsx` — Wraps the item list and result list (unprioritized vs prioritized).
+- `src/components/ChoiceGrid.tsx` — Grid of pairwise choice cells.
+- `src/components/ChoiceBox.tsx` — Single “choose A or B” cell.
+- `src/components/ResultGrid.tsx` — “Counts” display (how many times each item was chosen).
+- `src/utils/utils.ts` — Helpers (e.g. `convertToItemNumbersInRankedOrder` for ranking from counts).
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## License
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+See [LICENSE](LICENSE).
