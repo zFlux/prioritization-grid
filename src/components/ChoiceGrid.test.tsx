@@ -3,14 +3,14 @@ import ChoiceGrid from './ChoiceGrid';
 import { act } from 'react-dom/test-utils';
 import { HashTable } from '../utils/utils';
 
-const mockChange = jest.fn();
+const mockChange = vi.fn();
 
 describe('Rendering a ChoiceGrid', () => {
 
   let choiceGrid: HTMLElement;
   let secondOptions: HTMLElement[];
   let tenthOptions: HTMLElement[];
-  let choiceGridData: HashTable<HashTable<number>>;
+  let choiceGridData: HashTable<HashTable<number>> = {};
 
   const renderChoiceGrid = () => {
     mockChange.mockClear();
@@ -40,7 +40,7 @@ describe('Rendering a ChoiceGrid', () => {
     act(() => {
       secondOptions[0].click();
     });
-    expect(mockChange).toHaveBeenCalledWith(2, 0);
+    expect(mockChange).toHaveBeenCalledWith(2, 3, 2);
   });
 
 });

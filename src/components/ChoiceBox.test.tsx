@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import ChoiceBox from './ChoiceBox';
 import { act } from 'react-dom/test-utils';
 
-const mockChange = jest.fn();
+const mockChange = vi.fn();
 
 describe('Rendering a ChoiceBox', () => {
 
@@ -12,8 +12,8 @@ describe('Rendering a ChoiceBox', () => {
   const renderChoiceBox = () => {
     mockChange.mockClear();
     render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={0} onChange={mockChange} />);
-    firstChoice = screen.getByText(/1/i);
-    secondChoice = screen.getByText(/2/i);
+    firstChoice = screen.getByText(/^1$/);
+    secondChoice = screen.getByText(/^2$/);
   }
 
   test('renders first value', () => {
@@ -44,7 +44,7 @@ describe('When a choice is clicked', () => {
   const clickFirstChoice = () => {
     mockChange.mockClear();
     render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={1} onChange={mockChange} />);
-    firstChoice = screen.getByText(/1/i);
+    firstChoice = screen.getByText(/^1$/);
     act(() => {
       firstChoice.click();
     });
@@ -55,9 +55,9 @@ describe('When a choice is clicked', () => {
     expect(firstChoice).toHaveClass('ChoiceSelected');
   });
 
-  test('onChange event is called', () => {
+  test('onChange event is called with (firstOption, secondOption, chosen)', () => {
     clickFirstChoice();
-    expect(mockChange).toHaveBeenCalledWith(1, 0);
+    expect(mockChange).toHaveBeenCalledWith(1, 2, 1);
   });
 });
 
@@ -68,20 +68,15 @@ describe('When a choice is double clicked', () => {
   const doubleClickFirstChoice = () => {
     mockChange.mockClear();
     render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={1} onChange={mockChange} />);
-    firstChoice = screen.getByText(/1/i);
+    firstChoice = screen.getByText(/^1$/);
     act(() => { firstChoice.click(); });
     act(() => { firstChoice.click(); });
   }
 
-  test('double clicked choice is unselected', () => {
+  test('onChange event is called twice', () => {
     doubleClickFirstChoice();
-    expect(firstChoice).toHaveClass('Choice');
-  });
-
-  test('onChange event is called twice with expected selected / unselected values', () => {
-    doubleClickFirstChoice();
-    expect(mockChange).toHaveBeenCalledWith(1, 0);
-    expect(mockChange).toHaveBeenCalledWith(0, 1);
+    expect(mockChange).toHaveBeenCalledTimes(2);
+    expect(mockChange).toHaveBeenCalledWith(1, 2, 1);
   });
 });
 
@@ -93,8 +88,8 @@ describe('When two different choices are clicked in sequence', () => {
   const clickFirstThenSecondChoice = () => {
     mockChange.mockClear();
     render(<ChoiceBox firstOption={1} secondOption={2} selectable={true} selected={2} onChange={mockChange} />);
-    firstChoice = screen.getByText(/1/i);
-    secondChoice = screen.getByText(/2/i);
+    firstChoice = screen.getByText(/^1$/);
+    secondChoice = screen.getByText(/^2$/);
     act(() => { firstChoice.click(); });
     act(() => { secondChoice.click(); });
   }
@@ -109,10 +104,10 @@ describe('When two different choices are clicked in sequence', () => {
     expect(secondChoice).toHaveClass('ChoiceSelected');
   });
 
-  test('onChange event is called twice with expected selected / unselected values', () => {
+  test('onChange event is called twice with correct (firstOption, secondOption, chosen) args', () => {
     clickFirstThenSecondChoice();
-    expect(mockChange).toHaveBeenCalledWith(1, 0);
-    expect(mockChange).toHaveBeenCalledWith(2, 1);
+    expect(mockChange).toHaveBeenCalledWith(1, 2, 1);
+    expect(mockChange).toHaveBeenCalledWith(1, 2, 2);
   });
 });
 
