@@ -5,12 +5,19 @@ import { replaceAt, convertToItemNumbersInRankedOrder, type HashTable } from '..
 import './PrioritizationGrid.scss';
 import ItemGrid from './ItemGrid';
 
-const INITIAL_COUNT_OF_SELECTED_ITEMS = [0,0,0,0,0,0,0,0,0,0,0];
-const INITIAL_LIST_OF_RESULT_ITEMS = ['', '', '', '', '', '', '', '', '', '', ''];
-const INITIAL_LIST_OF_ITEMS = ['', '', '', '', '', '', '', '', '', '', ''];
-const INITIAL_RANKING_OF_ITEMS = [0,0,0,0,0,0,0,0,0,0,0];
+function createInitialArrays(maxItems: number) {
+  const length = maxItems + 1;
+  return {
+    countOfSelectedItems: Array<number>(length).fill(0),
+    listOfResultItems: Array<string>(length).fill(''),
+    listOfItems: Array<string>(length).fill(''),
+    rankingOfItems: Array<number>(length).fill(0),
+  };
+}
 
-interface PrioritizationGridProps { }
+interface PrioritizationGridProps {
+  maxItems: number;
+}
 
 interface PrioritizationGridState {
     countOfSelectedItems: number[];
@@ -32,11 +39,12 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
 
     constructor(props: PrioritizationGridProps) {
         super(props);
+        const initial = createInitialArrays(props.maxItems);
         this.state = {
-            countOfSelectedItems: INITIAL_COUNT_OF_SELECTED_ITEMS,
-            listOfItems: INITIAL_LIST_OF_ITEMS,
-            listOfResultItems: INITIAL_LIST_OF_RESULT_ITEMS,
-            rankingOfItems: INITIAL_RANKING_OF_ITEMS,
+            countOfSelectedItems: initial.countOfSelectedItems,
+            listOfItems: initial.listOfItems,
+            listOfResultItems: initial.listOfResultItems,
+            rankingOfItems: initial.rankingOfItems,
             choiceGrid: {},
             largestEditedItemIndex: 0,
             prioritiesTitle: ''
@@ -80,9 +88,10 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
     }
 
     updateCountOfSelectedItemsFromChoiceGrid() {
-        let updatedCountOfSelectedItems = INITIAL_COUNT_OF_SELECTED_ITEMS;
-        for (let i = 1; i <= 10; i++) {
-            for (let j = 1; j <= 10; j++) {
+        const { maxItems } = this.props;
+        let updatedCountOfSelectedItems = Array<number>(maxItems + 1).fill(0);
+        for (let i = 1; i <= maxItems; i++) {
+            for (let j = 1; j <= maxItems; j++) {
                 if (i !== j) {
                     const currentVal = this.getChosenValue(i, j);
                     if (currentVal !== 0) {
@@ -140,11 +149,13 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
         const updateListOfResultItems = this.updateListOfResultItems.bind(this);
         const updateCountOfSelectedItemsFromChoiceGrid = this.updateCountOfSelectedItemsFromChoiceGrid.bind(this);
 
+        const maxItems = this.props.maxItems;
         function handleFileLoad(event: ProgressEvent<FileReader>) {
             const jsonData = JSON.parse(event.target?.result?.toString() || '');
             let listOfItems = jsonData.listOfItems;
             listOfItems.unshift('');
-            setState({listOfItems: listOfItems, largestEditedItemIndex: jsonData.largestEditedItemIndex,choiceGrid: jsonData.choiceGrid, prioritiesTitle: jsonData.prioritiesTitle, countOfSelectedItems: INITIAL_COUNT_OF_SELECTED_ITEMS},
+            const initialCount = Array<number>(maxItems + 1).fill(0);
+            setState({listOfItems: listOfItems, largestEditedItemIndex: jsonData.largestEditedItemIndex,choiceGrid: jsonData.choiceGrid, prioritiesTitle: jsonData.prioritiesTitle, countOfSelectedItems: initialCount},
                 function() {
                     updateCountOfSelectedItemsFromChoiceGrid();
                     const updatedItemRankings = updateItemRankings();
@@ -177,8 +188,8 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
         return (
             <div className='PrioritizationGrid' data-testid='prioritization-grid-id'>
                 <div className='ItemGridAndChoiceGridContainer'>
-                    <ItemGrid itemList={this.state.listOfItems} largestEditedItemIndex={this.state.largestEditedItemIndex} resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
-                    <ChoiceGrid gridSize={10} choiceGridData={this.state.choiceGrid} largestEditedItemIndex={this.state.largestEditedItemIndex} onChange={this.choiceGridChange} />
+                    <ItemGrid maxItems={this.props.maxItems} itemList={this.state.listOfItems} largestEditedItemIndex={this.state.largestEditedItemIndex} resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
+                    <ChoiceGrid gridSize={this.props.maxItems} choiceGridData={this.state.choiceGrid} largestEditedItemIndex={this.state.largestEditedItemIndex} onChange={this.choiceGridChange} />
                 </div>
                 <ResultGrid countOfSelectedItems={this.state.countOfSelectedItems} rankingsOfItems={this.state.rankingOfItems} />
             </div>

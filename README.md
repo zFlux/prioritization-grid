@@ -4,7 +4,7 @@ A web app for ranking a list of items by making pairwise choices. You enter your
 
 ## What it does
 
-- **Enter items** — Add up to 10 items in the “Unprioritized” list (in any order).
+- **Enter items** — Add items to the “Unprioritized” list (in any order). The number of slots is **configurable via the `items` URL parameter** (default 10, min 2, max 25). Example: `?items=16`.
 - **Pairwise choices** — A grid of choice cells appears. In each cell you pick the higher-priority option (e.g. “1” or “2”). Only pairs for items you’ve entered are active.
 - **Live ranking** — As you make choices, the app counts how many times each item was selected and updates the “Prioritized” list and the “Counts” panel so you see the current order and scores.
 
@@ -30,7 +30,7 @@ npm install
 npm start
 ```
 
-Open [http://localhost:5173](http://localhost:5173) (Vite’s default port).
+Open [http://localhost:5173](http://localhost:5173) (Vite’s default port). Use `?items=16` to show 16 item slots.
 
 ### Other scripts
 

@@ -14,10 +14,10 @@ describe('Rendering a ChoiceGrid', () => {
 
   const renderChoiceGrid = () => {
     mockChange.mockClear();
-    render(<ChoiceGrid choiceGridData={choiceGridData} gridSize={10} onChange={mockChange} largestEditedItemIndex={10}/>);
+    render(<ChoiceGrid choiceGridData={choiceGridData} gridSize={16} onChange={mockChange} largestEditedItemIndex={16}/>);
     choiceGrid = screen.getByTestId(/choice-grid-id/i);
-    secondOptions = screen.getAllByText(/2/i);
-    tenthOptions = screen.getAllByText(/10/i);
+    secondOptions = screen.getAllByText('2');
+    tenthOptions = screen.getAllByText('10');
   }
 
   test('choice grid is rendered', () => {
@@ -25,20 +25,23 @@ describe('Rendering a ChoiceGrid', () => {
     expect(choiceGrid).toBeInTheDocument();
   });
 
-  test('there are 9 options with the number 10', () => {
+  test('there are 15 options with the number 10', () => {
     renderChoiceGrid();
-    expect(tenthOptions.length).toBe(9);
+    expect(tenthOptions.length).toBe(15);
   });
 
-  test('there are 9 options with the number 2', () => {
+  test('there are 15 options with the number 2', () => {
     renderChoiceGrid();
-    expect(secondOptions.length).toBe(9);
+    expect(secondOptions.length).toBe(15);
   });
 
   test('clicking an option on the grid calls the onChange event', () => {
     renderChoiceGrid();
+    const cellWithTwoAndThree = secondOptions.find(
+      (el) => el.closest('.ChoiceBox')?.textContent?.includes('3')
+    );
     act(() => {
-      secondOptions[0].click();
+      cellWithTwoAndThree!.click();
     });
     expect(mockChange).toHaveBeenCalledWith(2, 3, 2);
   });
