@@ -4,11 +4,25 @@ A web app for ranking a list of items by making pairwise choices. You enter your
 
 ## What it does
 
-- **Enter items** — Add items to the “Unprioritized” list (in any order). The number of slots is **configurable via the `items` URL parameter** (default 10, min 2, max 25). Example: `?items=16`.
-- **Pairwise choices** — A grid of choice cells appears. In each cell you pick the higher-priority option (e.g. “1” or “2”). Only pairs for items you’ve entered are active.
-- **Live ranking** — As you make choices, the app counts how many times each item was selected and updates the “Prioritized” list and the “Counts” panel so you see the current order and scores.
+- **Enter items** — Add items to the "Unprioritized" list (in any order). The number of slots is **configurable via the `items` URL parameter** (default 10, min 2, max 25). Example: `?items=16`.
+- **Pairwise choices** — A grid of choice cells appears. In each cell you pick the higher-priority option (e.g. "1" or "2"). Only pairs for items you've entered are active.
+- **Live ranking** — As you make choices, the app counts how many times each item was selected and updates the "Prioritized" list and the "Counts" panel so you see the current order and scores.
 
 Use it for prioritizing tasks, features, options, or anything you can list and compare in pairs.
+
+## Architecture
+
+The diagram below shows how data and events flow through the app. All state lives in a single `PrioritizationGrid` class component — no Redux or Context. User inputs write to two primary state values (`listOfItems` and `choiceGrid`), which trigger a three-step computation pipeline that produces the derived state consumed by the display components.
+
+![Data and event flow diagram](./assets/prioritization-grid-flow.png)
+
+| Layer | What it contains |
+|---|---|
+| **User Events** | Typing items, clicking pairwise choices, importing JSON |
+| **State** | `listOfItems`, `choiceGrid`, `largestEditedItemIndex` |
+| **Computation Pipeline** | `updateCountOfSelectedItems` → `convertToRankedOrder` → `updateListOfResultItems` |
+| **Derived State** | `countOfSelectedItems`, `rankingOfItems`, `listOfResultItems` |
+| **Display Components** | `ItemList`, `ChoiceGrid`, `ResultGrid`, `ResultList` — props only, no local state |
 
 ## Tech stack
 
@@ -30,7 +44,7 @@ npm install
 npm start
 ```
 
-Open [http://localhost:5173](http://localhost:5173) (Vite’s default port). Use `?items=16` to show 16 item slots.
+Open [http://localhost:5173](http://localhost:5173) (Vite's default port). Use `?items=16` to show 16 item slots.
 
 ### Other scripts
 
@@ -47,8 +61,8 @@ Open [http://localhost:5173](http://localhost:5173) (Vite’s default port). Use
 - `src/components/PrioritizationGrid.tsx` — Main state and logic: items, choice grid data, rankings, and result list.
 - `src/components/ItemGrid.tsx` — Wraps the item list and result list (unprioritized vs prioritized).
 - `src/components/ChoiceGrid.tsx` — Grid of pairwise choice cells.
-- `src/components/ChoiceBox.tsx` — Single “choose A or B” cell.
-- `src/components/ResultGrid.tsx` — “Counts” display (how many times each item was chosen).
+- `src/components/ChoiceBox.tsx` — Single "choose A or B" cell.
+- `src/components/ResultGrid.tsx` — "Counts" display (how many times each item was chosen).
 - `src/utils/utils.ts` — Helpers (e.g. `convertToItemNumbersInRankedOrder` for ranking from counts).
 
 ## License
