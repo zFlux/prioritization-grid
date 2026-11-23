@@ -1,7 +1,6 @@
 @use '../styles/variables' as *;
 
-// Sits under the Counts table, offset by the same amount as .ResultGrid so the
-// links centre under the table rather than under the whole page.
+// Sits just under the Counts table.
 .FileActions {
     display: flex;
     flex-direction: column;
@@ -9,11 +8,6 @@
     gap: 6px;
     margin-top: -14px;
     padding-bottom: 32px;
-    padding-right: 286px;
-
-    @media screen and (max-width: 768px) {
-        padding-right: 0px;
-    }
 }
 
 .FileActionsLinks {

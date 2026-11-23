@@ -1,7 +1,7 @@
 import React, { type ChangeEvent } from 'react';
 import ChoiceGrid from './ChoiceGrid';
 import ResultGrid from './ResultGrid';
-import { replaceAt, convertToItemNumbersInRankedOrder, type HashTable } from '../utils/utils';
+import { replaceAt, convertToItemNumbersInRankedOrder, clampItemCount, type HashTable } from '../utils/utils';
 import { parseSavedGrid, serializeGrid, deriveResults, defaultFileName, downloadTextFile, readFileAsText, LOAD_ERROR_MESSAGE } from '../utils/saveFile';
 import './PrioritizationGrid.scss';
 import ItemGrid from './ItemGrid';
@@ -18,6 +18,7 @@ function createInitialArrays(maxItems: number) {
 }
 
 interface PrioritizationGridProps {
+  /** Requested number of slots; clamped to MIN_MAX_ITEMS..MAX_MAX_ITEMS (3..25). */
   maxItems: number;
 }
 
@@ -38,6 +39,11 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
     focusRef = React.createRef<HTMLTextAreaElement>();
     messageTimer: ReturnType<typeof setTimeout> | null = null;
 
+    /** The item count actually used, whatever the host passes in. */
+    get maxItems(): number {
+        return clampItemCount(this.props.maxItems);
+    }
+
     componentDidMount() {
       this.focusRef.current?.focus();
       window.addEventListener('keydown', this.handleKeyDown);
@@ -50,7 +56,7 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
 
     constructor(props: PrioritizationGridProps) {
         super(props);
-        const initial = createInitialArrays(props.maxItems);
+        const initial = createInitialArrays(clampItemCount(props.maxItems));
         this.state = {
             countOfSelectedItems: initial.countOfSelectedItems,
             listOfItems: initial.listOfItems,
@@ -168,7 +174,7 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
             this.showFileMessage({ kind: 'error', text: LOAD_ERROR_MESSAGE });
             return;
         }
-        const { maxItems } = this.props;
+        const { maxItems } = this;
         const result = parseSavedGrid(text, maxItems);
         if (!result.ok) {
             this.showFileMessage({ kind: 'error', text: result.error });
@@ -234,8 +240,8 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
                 onDrop={this.handleDrop}
             >
                 <div className='ItemGridAndChoiceGridContainer'>
-                    <ItemGrid maxItems={this.props.maxItems} itemList={this.state.listOfItems} largestEditedItemIndex={this.state.largestEditedItemIndex} resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
-                    <ChoiceGrid gridSize={this.props.maxItems} choiceGridData={this.state.choiceGrid} largestEditedItemIndex={this.state.largestEditedItemIndex} onChange={this.choiceGridChange} />
+                    <ItemGrid maxItems={this.maxItems} itemList={this.state.listOfItems} largestEditedItemIndex={this.state.largestEditedItemIndex} resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
+                    <ChoiceGrid gridSize={this.maxItems} choiceGridData={this.state.choiceGrid} largestEditedItemIndex={this.state.largestEditedItemIndex} onChange={this.choiceGridChange} />
                 </div>
                 <ResultGrid countOfSelectedItems={this.state.countOfSelectedItems} rankingsOfItems={this.state.rankingOfItems} />
                 <FileActions

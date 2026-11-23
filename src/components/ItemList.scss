@@ -9,7 +9,7 @@
 
   .ItemListTitle {
     height: 10px;
-    width: 200px;
+    width: min(200px, calc(50cqw - 8px));
     margin-left: auto;
     font-size: 21px;
     font-weight: 700;
@@ -19,7 +19,7 @@
 
   .ItemListTitleSubtext {
     height: 50px;
-    width: 190px;
+    width: min(190px, calc(50cqw - 18px));
     margin-left: auto;
     font-size: 14px;
     line-height: 1.4;

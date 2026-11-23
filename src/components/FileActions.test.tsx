@@ -35,14 +35,14 @@ describe('Save / load links', () => {
     });
 
     it('explains when a file has more items than the grid fits', async () => {
-        render(<PrioritizationGrid maxItems={2} />);
-        const file = savedFile(JSON.stringify({ listOfItems: ['A', 'B', 'C', 'D'], choiceGrid: {} }), 'big.json');
+        render(<PrioritizationGrid maxItems={3} />);
+        const file = savedFile(JSON.stringify({ listOfItems: ['A', 'B', 'C', 'D', 'E'], choiceGrid: {} }), 'big.json');
         fireEvent.change(screen.getByTestId('file-actions-input'), { target: { files: [file] } });
 
         await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent(
-            'Loaded big.json, but it has 4 items and this grid fits 2, so items 3–4 were left out.'));
+            'Loaded big.json, but it has 5 items and this grid fits 3, so items 4–5 were left out.'));
         expect(itemField(1).value).toBe('A');
-        expect(itemField(2).value).toBe('B');
+        expect(itemField(3).value).toBe('C');
     });
 
     it('shows a message instead of failing on a bad file', async () => {

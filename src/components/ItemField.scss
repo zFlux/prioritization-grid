@@ -31,7 +31,7 @@
 .ItemTextbox {
     display: flex;
     box-sizing: border-box;
-    width: 182px;
+    width: min(182px, calc(50cqw - 28px));
     height: 64px;
     padding: 10px 12px;
     font-family: inherit;

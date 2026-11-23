@@ -10,6 +10,27 @@ interface ChoiceGridProps {
     largestEditedItemIndex: number;
 }
 
+/** Distance between neighbouring boxes: a 46px box (42 + 2×2 border) overlapping its neighbour by 2px. */
+export const CHOICE_PITCH = 44;
+const CHOICE_OVERLAP = 2;
+/** Below this many items the diagonal edge is too short for the title, so it goes above the grid instead. */
+export const DIAGONAL_TITLE_MIN_ITEMS = 8;
+
+/**
+ * Geometry of the rotated grid. The boxes form a staircase triangle inside a
+ * square of side `side`; rotating that square by -45deg about its centre turns
+ * the triangle into the shape on screen: a right-hand apex `halfDiagonal` from
+ * the centre line, and a left edge of height 2 × `halfDiagonal`. That left edge
+ * is the staircase, so the boxes' outer corners stick out past the centre line
+ * by `stepOverhang` (one box's half-diagonal); the canvas reserves room for it.
+ */
+export function choiceGridGeometry(gridSize: number) {
+    const side = Math.max(0, gridSize - 1) * CHOICE_PITCH + CHOICE_OVERLAP;
+    const halfDiagonal = side / Math.SQRT2;
+    const stepOverhang = gridSize > 1 ? (CHOICE_PITCH + CHOICE_OVERLAP) / Math.SQRT2 : 0;
+    return { side, halfDiagonal, stepOverhang, width: halfDiagonal + stepOverhang, height: 2 * halfDiagonal };
+}
+
 export default class ChoiceGrid extends React.Component<ChoiceGridProps> {
 
     constructor(props: ChoiceGridProps) {
@@ -25,7 +46,7 @@ export default class ChoiceGrid extends React.Component<ChoiceGridProps> {
         return 0;
       }
 
-    buildGrid() { 
+    buildGrid() {
         let grid = [];
         for (let i = this.props.gridSize; i >= 1 ; i--) {
             let row = [];
@@ -39,10 +60,22 @@ export default class ChoiceGrid extends React.Component<ChoiceGridProps> {
     }
 
     render() {
+        const { side, halfDiagonal, stepOverhang, width, height } = choiceGridGeometry(this.props.gridSize);
+        const diagonalTitle = this.props.gridSize >= DIAGONAL_TITLE_MIN_ITEMS;
         return (
-        <div className='ChoiceGrid' data-testid='choice-grid-id'>
-            {this.buildGrid()}
-            <div className='ChoiceGridTitle'>Choose Between Options</div>
+        <div className={'ChoiceGridFrame' + (diagonalTitle ? ' ChoiceGridFrameDiagonal' : '')}>
+            {!diagonalTitle && <div className='ChoiceGridHeading'>Choose between options</div>}
+            {/* The canvas reserves exactly the space the rotated grid occupies on screen. */}
+            <div className='ChoiceGridCanvas' style={{ width, height }}>
+                <div
+                    className='ChoiceGrid'
+                    data-testid='choice-grid-id'
+                    style={{ width: side, height: side, left: stepOverhang - side / 2, top: halfDiagonal - side / 2 }}
+                >
+                    {this.buildGrid()}
+                    {diagonalTitle && <div className='ChoiceGridTitle' style={{ height: side }}>Choose Between Options</div>}
+                </div>
+            </div>
         </div>);
     }
 }

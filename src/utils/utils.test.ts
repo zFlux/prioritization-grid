@@ -1,4 +1,4 @@
-import { replaceAt, convertToItemNumbersInRankedOrder, getMaxItemsFromSearchParams } from './utils';
+import { replaceAt, convertToItemNumbersInRankedOrder, getMaxItemsFromSearchParams, clampItemCount } from './utils';
 
 describe('replaceAt', () => {
     it('replaces at the beginning', () => {
@@ -41,12 +41,23 @@ describe('getMaxItemsFromSearchParams', () => {
         expect(getMaxItemsFromSearchParams('?items=16')).toBe(16);
         expect(getMaxItemsFromSearchParams('?items=5')).toBe(5);
     });
-    it('clamps to min 2 and max 25', () => {
-        expect(getMaxItemsFromSearchParams('?items=1')).toBe(2);
+    it('clamps to min 3 and max 25', () => {
+        expect(getMaxItemsFromSearchParams('?items=1')).toBe(3);
+        expect(getMaxItemsFromSearchParams('?items=2')).toBe(3);
+        expect(getMaxItemsFromSearchParams('?items=3')).toBe(3);
         expect(getMaxItemsFromSearchParams('?items=30')).toBe(25);
     });
     it('returns default for invalid value', () => {
         expect(getMaxItemsFromSearchParams('?items=abc')).toBe(10);
         expect(getMaxItemsFromSearchParams('?items=')).toBe(10);
+    });
+});
+
+describe('clampItemCount', () => {
+    it.each([
+        [-5, 3], [0, 3], [2, 3], [3, 3], [10, 10], [25, 25], [26, 25], [1000, 25],
+        [7.9, 7], ['12', 12], ['abc', 10], [NaN, 10], [undefined, 10],
+    ])('clamps %p to %p', (input, expected) => {
+        expect(clampItemCount(input)).toBe(expected);
     });
 });

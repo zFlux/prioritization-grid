@@ -1,14 +1,49 @@
 @use '../styles/variables' as *;
 
+  // Holds the (optional) heading and the canvas. On narrow screens a large grid
+  // scrolls sideways inside this frame instead of widening the whole page.
+  .ChoiceGridFrame {
+    display: flex;
+    flex-direction: column;
+    // Not `center`: centring an over-wide child pushes its left edge out of the
+    // scrollable area. Auto margins (below) centre it only when it fits.
+    align-items: flex-start;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    // Room for focus rings and the box borders at the edges of the canvas.
+    padding: 4px;
+  }
+
+  // The diagonal title sits outside the grid's upper-right edge; reserve room
+  // for it so it is never clipped by the scrolling frame.
+  .ChoiceGridFrameDiagonal {
+    padding: 28px 28px 4px 4px;
+  }
+
+  .ChoiceGridHeading {
+    align-self: center;
+    margin-bottom: 14px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: $muted;
+  }
+
+  .ChoiceGridCanvas {
+    position: relative;
+    flex-shrink: 0;
+    margin-inline: auto;
+  }
+
+  // Sized and placed from TypeScript (see choiceGridGeometry) so the rotated
+  // result lands exactly inside .ChoiceGridCanvas for every grid size.
   .ChoiceGrid {
+    position: absolute;
     display: flex;
     align-items: flex-end;
     rotate: -45deg;
-    margin-top: 90px;
-    margin-left: -140px;
-    @media screen and (max-width: 768px){
-      margin-left: -180px;
-    }
   }
 
   .ChoiceGridColumn {
@@ -16,15 +51,19 @@
     flex-direction: column;
   }
 
+  // Runs along the grid's upper-right edge, centred on it.
   .ChoiceGridTitle {
-    align-items: flex-start;
+    position: absolute;
+    top: 0;
+    left: 100%;
     padding-left: 6px;
     font-size: 19px;
     font-weight: 700;
     letter-spacing: 0.01em;
     color: $ink;
     writing-mode: vertical-lr;
-    height: 350px;
+    text-align: center;
+    white-space: nowrap;
   }
 
   .ChoiceBox {

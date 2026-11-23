@@ -1,19 +1,19 @@
 @use '../styles/variables' as *;
 
+$cell-width: 42px;
+$cell-height: 45px;
+$cell-border: 2px;
+$title-width: 30px;
+
 .ResultGrid {
-
   display: flex;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  padding-right: 286px;
-
-  @media screen and (max-width: 768px) {
-    margin-top: 90px;
-    padding-right: 0px;
-  }
+  align-items: stretch;
+  max-width: 100%;
 
   &Title {
-    padding-left: 8px;
+    flex-shrink: 0;
+    width: $title-width - 8px;
+    padding-right: 8px;
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -24,26 +24,34 @@
     rotate: 180deg;
   }
 
-  &ItemNumber, &Selected, &Ranked {
+  // Number/count pairs. They wrap onto further lines when the grid is wider
+  // than the available space, instead of pushing the page sideways.
+  &Pairs {
     display: flex;
+    flex-wrap: wrap;
+    row-gap: 12px;
+    // Leave room for the overlapping right border of the last pair.
+    padding-right: $cell-border;
+    max-width: calc(100cqw - #{$title-width} - #{$cell-border});
+  }
+
+  &Pair {
+    display: flex;
+    flex-direction: column;
+    margin-right: -$cell-border;
   }
 
   .ResultGridCell, .ResultGridCellTitle {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 42px;
-    height: 45px;
-    @media screen and (max-width: 768px) {
-      width: 32px;
-      height: 35px;
-    }
-    border: 2px solid $line;
-    margin-top: -2px;
-    margin-right: -2px;
+    width: $cell-width;
+    height: $cell-height;
+    border: $cell-border solid $line;
   }
 
   .ResultGridCell {
+    margin-top: -$cell-border;
     font-size: 17px;
     color: $ink;
     background-color: $surface;
@@ -55,16 +63,4 @@
     color: $muted;
     background-color: $surface-muted;
   }
-}
-
-.ResultGridRowTitle {
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-}
-
-.TitleEmphasis {
-  color: red;
-  font-weight: bold;
 }
