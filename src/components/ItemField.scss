@@ -1,3 +1,5 @@
+@use '../styles/variables' as *;
+
 .ItemField {
     display: flex;
     flex-direction: row;
@@ -8,7 +10,7 @@
 .ItemFieldDisabled {
     display: flex;
     .ItemTextbox {
-        background-color: rgb(245, 241, 241);
+        background-color: $surface-muted;
     }
     margin-top: -2px;
 }
@@ -16,26 +18,50 @@
 .ItemLabel {
     display: flex;
     align-items: center;
-    font-size: 18px;
-    font-weight: bold;
+    justify-content: flex-end;
+    font-size: 16px;
+    font-weight: 700;
+    color: $muted;
     height: 64px;
     width: 19.4px;
     padding-left: 5px;
     padding-right: 2px;
 }
 
-.ItemTextbox { 
+.ItemTextbox {
     display: flex;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+    box-sizing: border-box;
+    width: 182px;
+    height: 64px;
+    padding: 10px 12px;
+    font-family: inherit;
     font-size: 16px;
+    line-height: 1.35;
+    text-align: center;
+    color: $ink;
+    background-color: $surface;
     resize: none;
-    border-left: 0px solid black;
-    border-right: 2px solid black;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
+    border-left: 0px solid $line;
+    border-right: 2px solid $line;
+    border-top: 2px solid $line;
+    border-bottom: 2px solid $line;
+    border-radius: 0;
+    transition: background-color $transition, box-shadow $transition;
   }
-  
+
+  .ItemTextbox::placeholder {
+    color: $faint;
+  }
+
   .ItemTextbox:focus {
     outline: none;
+    box-shadow: inset 0 0 0 2px $accent;
+  }
+
+  .ItemTextbox:disabled {
+    cursor: not-allowed;
+  }
+
+  .ItemTextbox[readonly] {
+    cursor: default;
   }

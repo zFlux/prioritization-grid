@@ -13,8 +13,13 @@
   }
 
   &Title {
-    font-size: 22px;
-    font-weight: bold;
+    padding-left: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: $muted;
     writing-mode: vertical-rl;
     rotate: 180deg;
   }
@@ -33,13 +38,22 @@
       width: 32px;
       height: 35px;
     }
-    border: 2px solid black;
+    border: 2px solid $line;
     margin-top: -2px;
     margin-right: -2px;
   }
 
+  .ResultGridCell {
+    font-size: 17px;
+    color: $ink;
+    background-color: $surface;
+  }
+
   .ResultGridCellTitle {
-    font-weight: bolder;
+    font-size: 14px;
+    font-weight: 700;
+    color: $muted;
+    background-color: $surface-muted;
   }
 }
 

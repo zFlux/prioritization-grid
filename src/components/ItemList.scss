@@ -3,7 +3,7 @@
 
   .ItemList {
     .ItemTextbox {
-      color: rgb(0, 0, 0);
+      color: $ink;
     }
   }
 
@@ -11,14 +11,18 @@
     height: 10px;
     width: 200px;
     margin-left: auto;
-    font-size: 22px;
-    font-weight: bold;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: $ink;
   }
-  
+
   .ItemListTitleSubtext {
     height: 50px;
     width: 190px;
     margin-left: auto;
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1.4;
     font-weight: normal;
+    color: $muted;
   }

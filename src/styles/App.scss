@@ -1,12 +1,16 @@
 .App {
   text-align: center;
+  padding: 40px 16px 24px;
 }
 
+// Standalone page only. When the grid is embedded in another site, the host
+// page's body styles apply instead.
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  min-height: 100vh;
+  font-family: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: #222939;
+  background: linear-gradient(rgba(229, 233, 240, 0.5), #ffffff 480px) no-repeat, #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -1,9 +1,25 @@
 @use '../styles/variables' as *;
 
 .PrioritizationGrid {
+    --pg-font: 'Atkinson', 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --pg-ink: #0f1219;
+    --pg-text: #222939;
+    --pg-muted: #60739f;
+    --pg-faint: #c3cad9;
+    --pg-line: #2c3446;
+    --pg-surface: #ffffff;
+    --pg-surface-muted: #f2f4f8;
+    --pg-accent: #2337ff;
+    --pg-accent-soft: rgba(35, 55, 255, 0.1);
+    --pg-on-accent: #ffffff;
+
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: $font;
+    color: $text;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .PrioritizationGridHeader {

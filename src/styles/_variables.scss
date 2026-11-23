@@ -7,4 +7,21 @@ $choice-grid-top: 375px;
 $choice-grid-left: 23px;
 
 $choice-grid-col-width: 42px;
-$choice-grid-row-height: 42px; 
+$choice-grid-row-height: 42px;
+
+// Design tokens. Each maps to a CSS custom property set on .PrioritizationGrid,
+// so a host page can override any of them (e.g. --pg-accent) without a rebuild.
+// Defaults follow the danielchristo.com palette.
+$font: var(--pg-font);
+$ink: var(--pg-ink);            // headings, filled values
+$text: var(--pg-text);          // body text
+$muted: var(--pg-muted);        // labels, subtext
+$faint: var(--pg-faint);        // unavailable choices
+$line: var(--pg-line);          // grid and field borders
+$surface: var(--pg-surface);    // editable fields
+$surface-muted: var(--pg-surface-muted); // locked / read-only fields
+$accent: var(--pg-accent);
+$accent-soft: var(--pg-accent-soft);
+$on-accent: var(--pg-on-accent);
+
+$transition: 120ms ease-out;
