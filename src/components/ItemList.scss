@@ -7,8 +7,13 @@
     }
   }
 
+  // Spacing and alignment are set explicitly so host pages' global h3 and
+  // text-align styles don't change the look when the grid is embedded.
   .ItemListTitle {
-    height: 10px;
+    margin: 0 0 6px auto;
+    padding: 0;
+    line-height: 1.2;
+    text-align: center;
     width: min(200px, calc(50cqw - 8px));
     margin-left: auto;
     font-size: 21px;
@@ -19,6 +24,9 @@
 
   .ItemListTitleSubtext {
     height: 50px;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
     width: min(190px, calc(50cqw - 18px));
     margin-left: auto;
     font-size: 14px;
