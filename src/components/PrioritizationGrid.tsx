@@ -2,8 +2,10 @@ import React, { type ChangeEvent } from 'react';
 import ChoiceGrid from './ChoiceGrid';
 import ResultGrid from './ResultGrid';
 import { replaceAt, convertToItemNumbersInRankedOrder, type HashTable } from '../utils/utils';
+import { parseSavedGrid, serializeGrid, deriveResults, defaultFileName, downloadTextFile, readFileAsText, LOAD_ERROR_MESSAGE } from '../utils/saveFile';
 import './PrioritizationGrid.scss';
 import ItemGrid from './ItemGrid';
+import FileActions, { type FileMessage } from './FileActions';
 
 function createInitialArrays(maxItems: number) {
   const length = maxItems + 1;
@@ -27,14 +29,23 @@ interface PrioritizationGridState {
     choiceGrid: HashTable<HashTable<number>>;
     largestEditedItemIndex: number;
     prioritiesTitle: string;
+    fileMessage: FileMessage | null;
+    isDraggingFile: boolean;
 }
 
 export default class PrioritizationGrid extends React.Component<PrioritizationGridProps,PrioritizationGridState> {
 
     focusRef = React.createRef<HTMLTextAreaElement>();
+    messageTimer: ReturnType<typeof setTimeout> | null = null;
 
     componentDidMount() {
       this.focusRef.current?.focus();
+      window.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+      window.removeEventListener('keydown', this.handleKeyDown);
+      if (this.messageTimer) clearTimeout(this.messageTimer);
     }
 
     constructor(props: PrioritizationGridProps) {
@@ -47,11 +58,14 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
             rankingOfItems: initial.rankingOfItems,
             choiceGrid: {},
             largestEditedItemIndex: 0,
-            prioritiesTitle: ''
+            prioritiesTitle: '',
+            fileMessage: null,
+            isDraggingFile: false
         }
         this.itemListChange = this.itemListChange.bind(this);
         this.choiceGridChange = this.choiceGridChange.bind(this);
-        this.handleFileInputChange = this.handleFileInputChange.bind(this);
+        this.saveToFile = this.saveToFile.bind(this);
+        this.loadFromFile = this.loadFromFile.bind(this);
         this.setChosenValue = this.setChosenValue.bind(this);
         this.getChosenValue = this.getChosenValue.bind(this);
         this.handlePrioritiesTitleChange = this.handlePrioritiesTitleChange.bind(this);
@@ -85,22 +99,6 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
         this.setState({ listOfItems: updatedListOfItems });
         let largestEditedItemIndex = Math.max(this.state.largestEditedItemIndex, index);
         this.setState({ largestEditedItemIndex: largestEditedItemIndex });
-    }
-
-    updateCountOfSelectedItemsFromChoiceGrid() {
-        const { maxItems } = this.props;
-        let updatedCountOfSelectedItems = Array<number>(maxItems + 1).fill(0);
-        for (let i = 1; i <= maxItems; i++) {
-            for (let j = 1; j <= maxItems; j++) {
-                if (i !== j) {
-                    const currentVal = this.getChosenValue(i, j);
-                    if (currentVal !== 0) {
-                        updatedCountOfSelectedItems[currentVal]++;
-                    }
-                }
-            }
-        }
-        this.setState({ countOfSelectedItems: updatedCountOfSelectedItems });
     }
 
     choiceGridChange(firstOption: number, secondOption: number, selected: number) { 
@@ -142,56 +140,110 @@ export default class PrioritizationGrid extends React.Component<PrioritizationGr
         this.setState({listOfResultItems: updatedListOfResults});
     }
 
-    handleFileInputChange(event: ChangeEvent<HTMLInputElement>) {
-        const file = event.target.files?.[0];
-        const setState = this.setState.bind(this);
-        const updateItemRankings = this.updateItemRankings.bind(this);
-        const updateListOfResultItems = this.updateListOfResultItems.bind(this);
-        const updateCountOfSelectedItemsFromChoiceGrid = this.updateCountOfSelectedItemsFromChoiceGrid.bind(this);
+    hasItems(): boolean {
+        return this.state.listOfItems.some((item) => item.trim() !== '');
+    }
 
-        const maxItems = this.props.maxItems;
-        function handleFileLoad(event: ProgressEvent<FileReader>) {
-            const jsonData = JSON.parse(event.target?.result?.toString() || '');
-            let listOfItems = jsonData.listOfItems;
-            listOfItems.unshift('');
-            const initialCount = Array<number>(maxItems + 1).fill(0);
-            setState({listOfItems: listOfItems, largestEditedItemIndex: jsonData.largestEditedItemIndex,choiceGrid: jsonData.choiceGrid, prioritiesTitle: jsonData.prioritiesTitle, countOfSelectedItems: initialCount},
-                function() {
-                    updateCountOfSelectedItemsFromChoiceGrid();
-                    const updatedItemRankings = updateItemRankings();
-                    updateListOfResultItems(updatedItemRankings);
-                }
-                );  
+    showFileMessage(message: FileMessage) {
+        if (this.messageTimer) clearTimeout(this.messageTimer);
+        this.setState({ fileMessage: message });
+        this.messageTimer = setTimeout(
+            () => this.setState({ fileMessage: null }),
+            message.kind === 'error' ? 10000 : 5000,
+        );
+    }
 
+    saveToFile() {
+        if (!this.hasItems()) return;
+        const fileName = defaultFileName();
+        downloadTextFile(fileName, serializeGrid(this.state));
+        this.showFileMessage({ kind: 'info', text: `Saved ${fileName}` });
+    }
+
+    async loadFromFile(file: File) {
+        let text: string;
+        try {
+            text = await readFileAsText(file);
+        } catch {
+            this.showFileMessage({ kind: 'error', text: LOAD_ERROR_MESSAGE });
+            return;
         }
-
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = handleFileLoad;
-          reader.readAsText(file);
+        const { maxItems } = this.props;
+        const result = parseSavedGrid(text, maxItems);
+        if (!result.ok) {
+            this.showFileMessage({ kind: 'error', text: result.error });
+            return;
+        }
+        const { snapshot, fileItemCount, droppedItemCount } = result;
+        this.setState({
+            ...snapshot,
+            ...deriveResults(snapshot.listOfItems, snapshot.choiceGrid, maxItems),
+        });
+        if (droppedItemCount > 0) {
+            const firstDropped = maxItems + 1;
+            const dropped = firstDropped === fileItemCount ? `item ${firstDropped} was` : `items ${firstDropped}–${fileItemCount} were`;
+            this.showFileMessage({
+                kind: 'error',
+                text: `Loaded ${file.name}, but it has ${fileItemCount} items and this grid fits ${maxItems}, so ${dropped} left out.`,
+            });
+        } else {
+            this.showFileMessage({ kind: 'info', text: `Loaded ${file.name}` });
         }
     }
 
-    exportJsonData(listOfItems: string[], choiceGrid: HashTable<HashTable<number>>, largestEditedItemIndex: number, prioritiesTitle: string) {
-        let shiftedListOfItems = [...listOfItems];
-        shiftedListOfItems.shift();
-        const data = { choiceGrid: choiceGrid, listOfItems: shiftedListOfItems, largestEditedItemIndex: largestEditedItemIndex, prioritiesTitle: prioritiesTitle };
-        const jsonData = JSON.stringify(data);
-        const dataUri = `data:text/json;charset=utf-8,${encodeURIComponent(jsonData)}`;
-        const link = document.createElement('a');
-        link.href = dataUri;
-        link.download = this.state.prioritiesTitle + ' Priorities.json';
-        link.click();
+    handleKeyDown = (event: KeyboardEvent) => {
+        const isSaveShortcut = (event.metaKey || event.ctrlKey) && !event.shiftKey && !event.altKey && event.key.toLowerCase() === 's';
+        // Only take over the browser's "Save page" when there is something to save.
+        if (isSaveShortcut && this.hasItems()) {
+            event.preventDefault();
+            this.saveToFile();
+        }
+    }
+
+    static isFileDrag(event: React.DragEvent) {
+        return Array.from(event.dataTransfer?.types ?? []).includes('Files');
+    }
+
+    handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+        if (!PrioritizationGrid.isFileDrag(event)) return;
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'copy';
+        if (!this.state.isDraggingFile) this.setState({ isDraggingFile: true });
+    }
+
+    handleDragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+        const next = event.relatedTarget as Node | null;
+        if (!next || !event.currentTarget.contains(next)) this.setState({ isDraggingFile: false });
+    }
+
+    handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+        if (!PrioritizationGrid.isFileDrag(event)) return;
+        event.preventDefault();
+        this.setState({ isDraggingFile: false });
+        const file = event.dataTransfer.files?.[0];
+        if (file) this.loadFromFile(file);
     }
 
     render() {
         return (
-            <div className='PrioritizationGrid' data-testid='prioritization-grid-id'>
+            <div
+                className={'PrioritizationGrid' + (this.state.isDraggingFile ? ' PrioritizationGridDropTarget' : '')}
+                data-testid='prioritization-grid-id'
+                onDragOver={this.handleDragOver}
+                onDragLeave={this.handleDragLeave}
+                onDrop={this.handleDrop}
+            >
                 <div className='ItemGridAndChoiceGridContainer'>
                     <ItemGrid maxItems={this.props.maxItems} itemList={this.state.listOfItems} largestEditedItemIndex={this.state.largestEditedItemIndex} resultList={this.state.listOfResultItems} onChange={this.itemListChange} />
                     <ChoiceGrid gridSize={this.props.maxItems} choiceGridData={this.state.choiceGrid} largestEditedItemIndex={this.state.largestEditedItemIndex} onChange={this.choiceGridChange} />
                 </div>
                 <ResultGrid countOfSelectedItems={this.state.countOfSelectedItems} rankingsOfItems={this.state.rankingOfItems} />
+                <FileActions
+                    canSave={this.hasItems()}
+                    onSave={this.saveToFile}
+                    onLoadFile={this.loadFromFile}
+                    message={this.state.fileMessage}
+                />
             </div>
         );
     }

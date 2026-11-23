@@ -1,0 +1,76 @@
+@use '../styles/variables' as *;
+
+// Sits under the Counts table, offset by the same amount as .ResultGrid so the
+// links centre under the table rather than under the whole page.
+.FileActions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: -14px;
+    padding-bottom: 32px;
+    padding-right: 286px;
+
+    @media screen and (max-width: 768px) {
+        padding-right: 0px;
+    }
+}
+
+.FileActionsLinks {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: $muted;
+}
+
+.FileActionsLink {
+    padding: 2px 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: $muted;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: color $transition, text-decoration-color $transition;
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+        color: $accent;
+        text-decoration-color: currentColor;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $accent;
+        outline-offset: 3px;
+        border-radius: 2px;
+    }
+
+    &:disabled {
+        color: $faint;
+        cursor: default;
+    }
+}
+
+.FileActionsSeparator {
+    color: $faint;
+}
+
+.FileActionsInput {
+    display: none;
+}
+
+.FileActionsMessage {
+    min-height: 1.4em;
+    max-width: 420px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: $muted;
+    text-align: center;
+}
+
+.FileActionsMessageError {
+    color: #c0362c;
+}

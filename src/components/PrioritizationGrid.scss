@@ -20,6 +20,16 @@
     color: $text;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    border-radius: 12px;
+    outline: 2px dashed transparent;
+    outline-offset: 8px;
+    transition: outline-color $transition, background-color $transition;
+}
+
+// Shown only while a file is dragged over the grid.
+.PrioritizationGridDropTarget {
+    outline-color: $accent;
+    background-color: $accent-soft;
 }
 
 .PrioritizationGridHeader {
