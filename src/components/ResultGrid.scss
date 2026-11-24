@@ -4,6 +4,8 @@ $cell-width: 42px;
 $cell-height: 45px;
 $cell-border: 2px;
 $title-width: 30px;
+// Grid widths at or below this count as "phone" for the Counts layout.
+$phone-max-width: 600px;
 
 .ResultGrid {
   display: flex;
@@ -33,6 +35,13 @@ $title-width: 30px;
     // Leave room for the overlapping right border of the last pair.
     padding-right: $cell-border;
     max-width: calc(100cqw - #{$title-width} - #{$cell-border});
+
+    // On phones, wrap at exactly five pairs per row so rows stay even
+    // (e.g. 10 items show as 5 + 5 rather than 8 + 2). Each pair takes up
+    // one cell plus its two borders, less the 2px it overlaps its neighbour.
+    @container (max-width: #{$phone-max-width}) {
+      max-width: 5 * ($cell-width + $cell-border) + $cell-border;
+    }
   }
 
   &Pair {
