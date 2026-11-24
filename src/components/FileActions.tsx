@@ -13,8 +13,6 @@ interface FileActionsProps {
     message: FileMessage | null;
 }
 
-const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
-const SAVE_SHORTCUT = isMac ? '⌘S' : 'Ctrl+S';
 
 /** Deliberately quiet "Save to file · Load from file" links shown under the Counts table. */
 export default class FileActions extends React.Component<FileActionsProps> {
@@ -38,7 +36,7 @@ export default class FileActions extends React.Component<FileActionsProps> {
                         className='FileActionsLink'
                         onClick={onSave}
                         disabled={!canSave}
-                        title={canSave ? `Download your items and choices (${SAVE_SHORTCUT})` : 'Add an item first'}
+                        title={canSave ? 'Download your list for later' : 'Add an item first'}
                     >
                         Save to file
                     </button>
@@ -47,7 +45,7 @@ export default class FileActions extends React.Component<FileActionsProps> {
                         type='button'
                         className='FileActionsLink'
                         onClick={() => this.fileInputRef.current?.click()}
-                        title='Open a saved file, or drop one onto the grid'
+                        title='Reopen a list you saved'
                     >
                         Load from file
                     </button>

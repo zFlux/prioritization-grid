@@ -8,6 +8,12 @@
     gap: 6px;
     margin-top: -14px;
     padding-bottom: 32px;
+
+    // Saving and loading files isn't useful on phones, so hide it there.
+    // Matches the phone width used by the Counts table.
+    @container (max-width: 600px) {
+        display: none;
+    }
 }
 
 .FileActionsLinks {

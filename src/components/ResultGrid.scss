@@ -12,6 +12,12 @@ $phone-max-width: 600px;
   align-items: stretch;
   max-width: 100%;
 
+  // The save/load links (and their bottom padding) are hidden on phones, so
+  // keep some space below the table there.
+  @container (max-width: #{$phone-max-width}) {
+    margin-bottom: 32px;
+  }
+
   &Title {
     flex-shrink: 0;
     width: $title-width - 8px;
